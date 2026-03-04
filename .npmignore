@@ -1,0 +1,22 @@
+# Source files
+src/
+test/
+*.md
+!README.md
+
+# Config files
+tsconfig.json
+.eslintrc.json
+.prettierrc
+.gitignore
+nodemon.json
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+coverage/
+.nyc_output/
