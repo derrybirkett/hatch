@@ -41,7 +41,15 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       libraryName: 'shared',
       libraryType: 'shared',
     });
-    libSpinner.succeed('Shared libraries generated');
+    
+    await generateLibrary({
+      projectName: config.projectName,
+      projectPath,
+      libraryName: 'auth',
+      libraryType: 'auth',
+    });
+    
+    libSpinner.succeed('Shared libraries generated (shared, auth)');
   } catch (error) {
     libSpinner.fail('Failed to generate libraries');
     throw error;

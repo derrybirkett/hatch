@@ -70,18 +70,38 @@ export async function generateLibrary(config: LibraryConfig) {
   );
   
   // Copy library-specific source files
-  await copyLibrarySource(templatesDir, libPath, config.libraryType);
+  await copyLibrarySource(templatesDir, libPath, config.libraryType, templateData);
 }
 
 /**
  * Copy library-specific source files
  */
-async function copyLibrarySource(templatesDir: string, libPath: string, libraryType: string) {
+async function copyLibrarySource(templatesDir: string, libPath: string, libraryType: string, templateData: object) {
   const srcLibDir = path.join(templatesDir, 'src/lib');
   const destLibDir = path.join(libPath, 'src/lib');
   
   if (await fs.pathExists(srcLibDir)) {
-    await fs.copy(srcLibDir, destLibDir, { overwrite: true });
+    const files = await fs.readdir(srcLibDir);
+    
+    for (const file of files) {
+      const sourcePath = path.join(srcLibDir, file);
+      const destPath = path.join(destLibDir, file);
+      
+      const stat = await fs.stat(sourcePath);
+      if (stat.isFile()) {
+        // Read the file content
+        const content = await fs.readFile(sourcePath, 'utf-8');
+        
+        // Render as EJS template (even if no variables, it's safe)
+        const rendered = ejs.render(content, templateData);
+        
+        // Write the rendered content
+        await fs.writeFile(destPath, rendered);
+      } else if (stat.isDirectory()) {
+        // Recursively copy directories (for nested structures)
+        await fs.copy(sourcePath, destPath, { overwrite: true });
+      }
+    }
   }
 }
 

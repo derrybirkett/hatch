@@ -1,0 +1,114 @@
+# @<%= projectName %>/<%= libraryName %>
+
+Authentication library with React context, hooks, and utilities for the <%= projectName %> workspace.
+
+## Features
+
+- **AuthContext & AuthProvider**: React Context for managing authentication state
+- **useAuth Hook**: Access authentication state and methods
+- **useUser Hook**: Access current user data
+- **Token Management**: Automatic token storage and refresh
+- **Protected Routes**: Component for protecting authenticated routes
+- **Login/Logout**: Built-in authentication methods
+
+## Usage
+
+### Setup Provider
+
+Wrap your app with the AuthProvider:
+
+```tsx
+import { AuthProvider } from '@<%= projectName %>/<%= libraryName %>';
+
+function App() {
+  return (
+    <AuthProvider>
+      {/* Your app */}
+    </AuthProvider>
+  );
+}
+```
+
+### Use Authentication
+
+```tsx
+import { useAuth } from '@<%= projectName %>/<%= libraryName %>';
+
+function LoginPage() {
+  const { login, isLoading, error } = useAuth();
+
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      await login({ email, password });
+      // Redirect to dashboard
+    } catch (err) {
+      // Handle error
+    }
+  };
+
+  return <LoginForm onSubmit={handleLogin} />;
+}
+```
+
+### Protected Routes
+
+```tsx
+import { ProtectedRoute } from '@<%= projectName %>/<%= libraryName %>';
+
+function Dashboard() {
+  return (
+    <ProtectedRoute>
+      <DashboardContent />
+    </ProtectedRoute>
+  );
+}
+```
+
+### Get Current User
+
+```tsx
+import { useUser } from '@<%= projectName %>/<%= libraryName %>';
+
+function Profile() {
+  const user = useUser();
+  
+  return <div>Welcome, {user?.name}!</div>;
+}
+```
+
+## API
+
+### `useAuth()`
+
+Returns:
+- `user`: Current user object or null
+- `isAuthenticated`: Boolean indicating if user is logged in
+- `isLoading`: Boolean indicating if auth operation in progress
+- `error`: Error message if auth operation failed
+- `login(credentials)`: Login with email/password
+- `register(data)`: Register new user
+- `logout()`: Logout current user
+- `refreshToken()`: Manually refresh auth token
+
+### `useUser()`
+
+Returns the current user object or null.
+
+### `ProtectedRoute`
+
+Props:
+- `children`: React nodes to render if authenticated
+- `redirectTo`: Path to redirect if not authenticated (default: '/login')
+
+## Development
+
+```bash
+# Build the library
+nx build <%= libraryName %>
+
+# Test the library
+nx test <%= libraryName %>
+
+# Lint the library
+nx lint <%= libraryName %>
+```
