@@ -1,0 +1,51 @@
+# <%= projectName %> - API
+
+NestJS API server for <%= projectName %>.
+
+## Features
+
+- RESTful API
+- JWT authentication
+- User registration and login
+- CORS enabled
+- Request validation
+- Swagger documentation (optional)
+
+## Development
+
+```bash
+# Start development server
+nx serve api
+
+# Build for production
+nx build api
+
+# Run tests
+nx test api
+
+# Lint
+nx lint api
+```
+
+## API Endpoints
+
+### Auth
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - Login user
+- `POST /auth/refresh` - Refresh access token
+- `GET /auth/me` - Get current user (requires auth)
+
+## Environment Variables
+
+```
+JWT_SECRET=your-secret-key
+JWT_EXPIRES_IN=1d
+PORT=3333
+```
+
+## Tech Stack
+
+- NestJS
+- TypeScript
+- JWT for authentication
+- Class validator for input validation

@@ -138,5 +138,5 @@ class ApiClient {
 
 // Create and export default instance
 export const apiClient = new ApiClient({
-  baseURL: process.env.API_URL || 'http://localhost:3333',
+  baseURL: process.env.API_URL || 'http://localhost:3333/api',
 });
