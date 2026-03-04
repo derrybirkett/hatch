@@ -1,0 +1,30 @@
+# @<%= projectName %>/ui
+
+Shared UI component library built with React and Tailwind CSS.
+
+## Components
+
+- `Button` - Versatile button component with variants
+- `Input` - Form input component
+- `Card` - Card container component
+- `Badge` - Badge/label component
+- `Alert` - Alert/notification component
+
+## Usage
+
+```tsx
+import { Button, Input, Card } from '@<%= projectName %>/ui';
+
+function MyComponent() {
+  return (
+    <Card>
+      <Input placeholder="Enter text" />
+      <Button variant="primary">Submit</Button>
+    </Card>
+  );
+}
+```
+
+## Styling
+
+All components are built using Tailwind CSS and support className prop for custom styling.
