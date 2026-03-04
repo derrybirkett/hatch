@@ -168,79 +168,24 @@ Track progress as you build the Hatch CLI tool.
 
 ---
 
-## Phase 5: Backend API (Week 4-5)
+## Phase 5: Website App (Week 4-5) ✅ COMPLETE
 
-### NestJS Setup
-- [ ] Generate NestJS app
-- [ ] Configure TypeScript
-- [ ] Set up environment configuration
-- [ ] Add validation pipe
-- [ ] Configure CORS
-- [ ] Add Helmet for security
-- [ ] Configure rate limiting
-- [ ] Set up logging (Winston/Pino)
-- [ ] Add Swagger/OpenAPI
-
-### Prisma Setup
-- [ ] Install Prisma
-- [ ] Initialize Prisma
-- [ ] Create schema.prisma
-- [ ] Define User model
-- [ ] Define Session model
-- [ ] Define Payment model
-- [ ] Add custom models from story
-- [ ] Create PrismaService
-- [ ] Create PrismaModule
-- [ ] Set up migrations
-- [ ] Create seed script
-
-### Auth Module
-- [ ] Create auth module
-- [ ] Create auth controller
-- [ ] Create auth service
-- [ ] Implement register endpoint
-- [ ] Implement login endpoint
-- [ ] Implement logout endpoint
-- [ ] Implement password reset
-- [ ] Create JWT strategy
-- [ ] Create JwtAuthGuard
-- [ ] Create DTOs (login, register)
-- [ ] Add input validation
-- [ ] Hash passwords (bcrypt)
-- [ ] Generate JWT tokens
-
-### User Module
-- [ ] Create user module
-- [ ] Create user controller
-- [ ] Create user service
-- [ ] Implement GET /users/me
-- [ ] Implement PATCH /users/me
-- [ ] Implement DELETE /users/me
-- [ ] Add avatar upload
-- [ ] Create DTOs (update user)
-- [ ] Add authorization guards
-
-### Billing Module
-- [ ] Create billing module
-- [ ] Create billing controller
-- [ ] Create billing service
-- [ ] Implement Stripe integration
-- [ ] Create subscription endpoints
-- [ ] Create payment method endpoints
-- [ ] Create invoice endpoints
-- [ ] Implement webhook handler
-- [ ] Verify webhook signatures
-- [ ] Handle Stripe events
-- [ ] Create DTOs
-
-### Custom Modules (from User Story)
-- [ ] Generate custom module structure
-- [ ] Create controller
-- [ ] Create service
-- [ ] Create DTOs
-- [ ] Add CRUD endpoints
-- [ ] Add business logic
-- [ ] Add validation
+### Next.js Website (Marketing Site)
+- [x] Generate Next.js app structure with App Router
+- [x] Configure Next.js 15
+- [x] Create landing page (app/page.tsx)
+- [x] Create hero section with CTA
+- [x] Create features section
+- [x] Create pricing page (app/pricing/page.tsx)
+- [x] Create pricing plans with cards
+- [x] Add FAQ section
+- [x] Create root layout with Inter font
+- [x] Configure Tailwind CSS with design tokens
+- [x] Add global CSS with design system variables
+- [x] Link to dashboard for sign up/sign in
+- [x] Configure port 3001
+- [x] Update workspace generator to create 3 apps
+- [x] Update app generator for Next.js structure
 
 ---
 
