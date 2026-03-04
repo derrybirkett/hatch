@@ -29,6 +29,14 @@
   ],
   "author": "Your Name",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dbirkett/hatch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dbirkett/hatch/issues"
+  },
+  "homepage": "https://github.com/dbirkett/hatch#readme",
   "engines": {
     "node": ">=18.0.0"
   },
