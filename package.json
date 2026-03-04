@@ -1,6 +1,6 @@
 {
   "name": "hatch-cli",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Bootstrap production-ready SaaS applications from user stories",
   "main": "dist/index.js",
   "bin": {
@@ -41,9 +41,12 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
+    "@nx/devkit": "^22.5.3",
+    "@nx/workspace": "^22.5.3",
     "chalk": "^5.6.2",
     "commander": "^14.0.3",
     "cosmiconfig": "^9.0.1",
+    "create-nx-workspace": "^22.5.3",
     "ejs": "^4.0.1",
     "execa": "^9.6.1",
     "fs-extra": "^11.3.4",

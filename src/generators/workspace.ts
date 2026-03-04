@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import { execa } from 'execa';
 import ora from 'ora';
+import ejs from 'ejs';
 import { ParsedStory } from '../parsers/story-parser';
 import { Theme } from '../parsers/theme-generator';
 
@@ -58,162 +59,124 @@ async function generateBaseStructure(
   projectPath: string,
   config: WorkspaceConfig
 ) {
-  // For MVP: Create basic package.json and README
-  // In full implementation, this will generate entire Nx workspace
+  const templatesDir = path.join(__dirname, '../../templates/workspace');
   
-  const packageJson = {
-    name: config.projectName,
-    version: '0.1.0',
+  // Create Nx workspace directory structure
+  await fs.ensureDir(path.join(projectPath, 'apps'));
+  await fs.ensureDir(path.join(projectPath, 'libs'));
+  await fs.ensureDir(path.join(projectPath, 'tools'));
+  await fs.ensureDir(path.join(projectPath, 'e2e'));
+  
+  // Template data for EJS rendering
+  const templateData = {
+    projectName: config.projectName,
     description: config.description,
-    private: true,
-    scripts: {
-      dev: 'echo "Development server coming soon..."',
-      build: 'echo "Build coming soon..."',
-      test: 'echo "Tests coming soon..."',
-    },
-    keywords: config.parsedStory.features,
+    story: config.story,
     author: config.author,
-    license: 'MIT',
+    parsedStory: config.parsedStory,
+    theme: config.theme,
   };
   
-  await fs.writeJSON(
+  // Render and write configuration files
+  await renderTemplate(
+    path.join(templatesDir, 'package.json.ejs'),
     path.join(projectPath, 'package.json'),
-    packageJson,
-    { spaces: 2 }
+    templateData
   );
   
-  const readme = `# ${config.projectName}
+  await renderTemplate(
+    path.join(templatesDir, 'nx.json.ejs'),
+    path.join(projectPath, 'nx.json'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'tsconfig.base.json.ejs'),
+    path.join(projectPath, 'tsconfig.base.json'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'README.md.ejs'),
+    path.join(projectPath, 'README.md'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'prettierrc.ejs'),
+    path.join(projectPath, '.prettierrc'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'eslintrc.json.ejs'),
+    path.join(projectPath, '.eslintrc.json'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'gitignore.ejs'),
+    path.join(projectPath, '.gitignore'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'env.example.ejs'),
+    path.join(projectPath, '.env.example'),
+    templateData
+  );
+  
+  // Create .nvmrc for Node version management
+  await renderTemplate(
+    path.join(templatesDir, 'nvmrc.ejs'),
+    path.join(projectPath, '.nvmrc'),
+    templateData
+  );
+  
+  // Create VSCode workspace settings
+  await fs.ensureDir(path.join(projectPath, '.vscode'));
+  await renderTemplate(
+    path.join(templatesDir, 'vscode-extensions.json.ejs'),
+    path.join(projectPath, '.vscode/extensions.json'),
+    templateData
+  );
+  await renderTemplate(
+    path.join(templatesDir, 'vscode-settings.json.ejs'),
+    path.join(projectPath, '.vscode/settings.json'),
+    templateData
+  );
+  
+  // Create placeholder README files for directory structure
+  await createPlaceholderReadme(path.join(projectPath, 'apps'), 'Applications');
+  await createPlaceholderReadme(path.join(projectPath, 'libs'), 'Shared Libraries');
+  await createPlaceholderReadme(path.join(projectPath, 'tools'), 'Custom Tools and Generators');
+  await createPlaceholderReadme(path.join(projectPath, 'e2e'), 'End-to-End Tests');
+}
 
-${config.description}
+/**
+ * Render an EJS template and write to file
+ */
+async function renderTemplate(
+  templatePath: string,
+  outputPath: string,
+  data: object
+) {
+  const template = await fs.readFile(templatePath, 'utf-8');
+  const rendered = ejs.render(template, data);
+  await fs.writeFile(outputPath, rendered);
+}
 
-> Generated with [Hatch](https://github.com/yourusername/hatch) 🐣
+/**
+ * Create a placeholder README in empty directories
+ */
+async function createPlaceholderReadme(dirPath: string, title: string) {
+  const readme = `# ${title}
 
-## User Story
+This directory will contain ${title.toLowerCase()}.
 
-${config.story}
-
-## Project Details
-
-- **Domain**: ${config.parsedStory.domain}
-- **Features**: ${config.parsedStory.features.join(', ')}
-
-## Theme
-
-- **Primary Color**: ${config.theme.primaryColor}
-- **Secondary Color**: ${config.theme.secondaryColor}
-- **Accent Color**: ${config.theme.accentColor}
-- **Font Family**: ${config.theme.fontFamily}
-
-## Getting Started
-
-\`\`\`bash
-# Install dependencies (if not already done)
-npm install
-
-# Start development servers
-npm run dev
-\`\`\`
-
-## Project Structure
-
-\`\`\`
-${config.projectName}/
-├── apps/              # Applications (website, dashboard, blog, docs, api)
-├── libs/              # Shared libraries (ui, auth, billing, shared)
-├── e2e/               # End-to-end tests
-└── tools/             # Build tools and generators
-\`\`\`
-
-## Generated Features
-
-${config.parsedStory.features.map((f) => `- **${f}**: Ready to customize`).join('\n')}
-
-## Next Steps
-
-1. ⚡ Customize your theme colors
-2. 🏗️  Add custom features specific to your needs
-3. 🧪 Run tests: \`npm test\`
-4. 🚀 Deploy to production
-
-## Tech Stack
-
-- **Frontend**: React, Next.js, Tailwind CSS, shadcn/ui
-- **Backend**: NestJS, Prisma, PostgreSQL
-- **Testing**: Playwright, Vitest
-- **Deployment**: Ready for Vercel, Railway, Docker
-
----
-
-Built with ❤️  using Hatch
+> Generated by Hatch
 `;
-  
-  await fs.writeFile(path.join(projectPath, 'README.md'), readme);
-  
-  // Create .gitignore
-  const gitignore = `# Dependencies
-node_modules/
-.pnpm-store/
-
-# Build outputs
-dist/
-build/
-.next/
-out/
-
-# Environment variables
-.env
-.env*.local
-
-# Testing
-coverage/
-.nyc_output/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-
-# Misc
-.cache/
-temp/
-`;
-  
-  await fs.writeFile(path.join(projectPath, '.gitignore'), gitignore);
-  
-  // Create basic .env.example
-  const envExample = `# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/${config.projectName}"
-
-# API Configuration
-API_PORT=3333
-API_URL="http://localhost:3333"
-NODE_ENV="development"
-
-# JWT Configuration
-JWT_SECRET="change-me-in-production"
-JWT_EXPIRES_IN="7d"
-
-# Stripe (optional - add your keys)
-STRIPE_PUBLIC_KEY=""
-STRIPE_SECRET_KEY=""
-STRIPE_WEBHOOK_SECRET=""
-
-# Frontend URLs
-WEBSITE_URL="http://localhost:3000"
-DASHBOARD_URL="http://localhost:4200"
-`;
-  
-  await fs.writeFile(path.join(projectPath, '.env.example'), envExample);
+  await fs.writeFile(path.join(dirPath, 'README.md'), readme);
 }
 
 async function installDependencies(projectPath: string) {
