@@ -7,6 +7,8 @@ import { generateTheme } from '../parsers/theme-generator';
 
 interface InitOptions {
   story?: string;
+  description?: string;
+  author?: string;
   install: boolean;
   git: boolean;
 }
@@ -38,6 +40,7 @@ export async function initCommand(
       name: 'description',
       message: 'Project description:',
       default: 'A SaaS application',
+      when: !options.description,
     },
     {
       type: 'input',
@@ -52,14 +55,15 @@ export async function initCommand(
       name: 'author',
       message: 'Author name:',
       default: 'Your Name',
+      when: !options.author,
     },
   ]);
 
   const config = {
     projectName: projectName || answers.projectName,
-    description: answers.description,
+    description: options.description || answers.description,
     story: options.story || answers.story,
-    author: answers.author,
+    author: options.author || answers.author,
   };
 
   // Parse user story

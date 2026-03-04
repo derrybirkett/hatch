@@ -16,6 +16,8 @@ program
   .command('init [project-name]')
   .description('Initialize a new SaaS project')
   .option('-s, --story <story>', 'User story describing the app')
+  .option('-d, --description <description>', 'Project description')
+  .option('-a, --author <author>', 'Author name')
   .option('--no-install', 'Skip installing dependencies')
   .option('--no-git', 'Skip git initialization')
   .action(initCommand);
