@@ -1,0 +1,111 @@
+# E2E Tests
+
+End-to-end tests for <%= projectName %> using Playwright.
+
+## Prerequisites
+
+Before running E2E tests, ensure all apps are running:
+
+1. **API** (port 3333):
+   ```bash
+   nx serve api
+   ```
+
+2. **Dashboard** (port 3000):
+   ```bash
+   nx serve dashboard
+   ```
+
+3. **Website** (port 3001):
+   ```bash
+   nx serve website
+   ```
+
+## Installation
+
+Install Playwright browsers:
+
+```bash
+cd e2e
+npm install
+npm run install:browsers
+```
+
+## Running Tests
+
+Run all tests:
+```bash
+npm test
+```
+
+Run tests with UI mode (recommended for development):
+```bash
+npm run test:ui
+```
+
+Run tests in headed mode (see the browser):
+```bash
+npm run test:headed
+```
+
+Run tests in debug mode:
+```bash
+npm run test:debug
+```
+
+Run tests for specific browser:
+```bash
+npm run test:chromium
+npm run test:firefox
+npm run test:webkit
+```
+
+## View Test Report
+
+After running tests, view the HTML report:
+```bash
+npm run report
+```
+
+## Test Structure
+
+- `tests/auth-flow.spec.ts` - Complete user authentication journey
+  - Signup → Login → Dashboard → Logout
+  - Protected routes
+  - Form validation
+  - Error handling
+
+## Writing Tests
+
+Tests use Playwright's test framework. Example:
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test('should do something', async ({ page }) => {
+  await page.goto('http://localhost:3001');
+  await expect(page).toHaveTitle(/My Title/);
+});
+```
+
+## CI/CD
+
+Tests are configured to run in CI with:
+- 2 retries on failure
+- Single worker (no parallelization)
+- Chromium only (to save time)
+
+## Debugging
+
+Use Playwright Inspector:
+```bash
+npm run test:debug
+```
+
+Or add `await page.pause()` in your test to pause execution.
+
+## Documentation
+
+- [Playwright Documentation](https://playwright.dev)
+- [Best Practices](https://playwright.dev/docs/best-practices)
+- [Selectors](https://playwright.dev/docs/selectors)

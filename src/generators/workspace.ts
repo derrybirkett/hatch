@@ -93,6 +93,16 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     throw error;
   }
   
+  // Generate E2E tests
+  const e2eSpinner = ora('Generating E2E tests...').start();
+  try {
+    await generateE2ETests(projectPath, config);
+    e2eSpinner.succeed('E2E tests generated with Playwright');
+  } catch (error) {
+    e2eSpinner.fail('Failed to generate E2E tests');
+    throw error;
+  }
+  
   // Install dependencies
   if (config.install) {
     const spinner = ora('Installing dependencies...').start();
@@ -212,7 +222,64 @@ async function generateBaseStructure(
   await createPlaceholderReadme(path.join(projectPath, 'apps'), 'Applications');
   await createPlaceholderReadme(path.join(projectPath, 'libs'), 'Shared Libraries');
   await createPlaceholderReadme(path.join(projectPath, 'tools'), 'Custom Tools and Generators');
-  await createPlaceholderReadme(path.join(projectPath, 'e2e'), 'End-to-End Tests');
+}
+
+/**
+ * Generate E2E tests with Playwright
+ */
+async function generateE2ETests(projectPath: string, config: WorkspaceConfig) {
+  const e2ePath = path.join(projectPath, 'e2e');
+  const templatesDir = path.join(__dirname, '../../templates/e2e');
+  
+  // Template data
+  const templateData = {
+    projectName: config.projectName,
+    description: config.description,
+  };
+  
+  // Copy E2E test files
+  await renderTemplate(
+    path.join(templatesDir, 'package.json.ejs'),
+    path.join(e2ePath, 'package.json'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'project.json.ejs'),
+    path.join(e2ePath, 'project.json'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'playwright.config.ts.ejs'),
+    path.join(e2ePath, 'playwright.config.ts'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'README.md.ejs'),
+    path.join(e2ePath, 'README.md'),
+    templateData
+  );
+  
+  await fs.copy(
+    path.join(templatesDir, '.gitignore'),
+    path.join(e2ePath, '.gitignore')
+  );
+  
+  // Copy test files
+  const testsDir = path.join(templatesDir, 'tests');
+  const destTestsDir = path.join(e2ePath, 'tests');
+  await fs.ensureDir(destTestsDir);
+  
+  const testFiles = await fs.readdir(testsDir);
+  for (const file of testFiles) {
+    const sourcePath = path.join(testsDir, file);
+    const destPath = path.join(destTestsDir, file);
+    const content = await fs.readFile(sourcePath, 'utf-8');
+    const rendered = ejs.render(content, templateData);
+    await fs.writeFile(destPath, rendered);
+  }
 }
 
 /**
