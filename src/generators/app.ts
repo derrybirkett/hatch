@@ -74,11 +74,22 @@ export async function generateApp(config: AppConfig) {
  * Copy app-specific source files
  */
 async function copyAppSource(templatesDir: string, appPath: string, appType: string, templateData: object) {
-  const srcDir = path.join(templatesDir, 'src');
-  const destDir = path.join(appPath, 'src');
-  
-  if (await fs.pathExists(srcDir)) {
-    await copyDirWithTemplates(srcDir, destDir, templateData);
+  // For Next.js website, copy the 'app' directory (App Router)
+  if (appType === 'website') {
+    const appDir = path.join(templatesDir, 'app');
+    const destDir = path.join(appPath, 'app');
+    
+    if (await fs.pathExists(appDir)) {
+      await copyDirWithTemplates(appDir, destDir, templateData);
+    }
+  } else {
+    // For other apps (dashboard, api), copy the 'src' directory
+    const srcDir = path.join(templatesDir, 'src');
+    const destDir = path.join(appPath, 'src');
+    
+    if (await fs.pathExists(srcDir)) {
+      await copyDirWithTemplates(srcDir, destDir, templateData);
+    }
   }
 }
 
@@ -86,7 +97,15 @@ async function copyAppSource(templatesDir: string, appPath: string, appType: str
  * Copy app config files
  */
 async function copyAppConfig(templatesDir: string, appPath: string, templateData: object) {
-  const configFiles = ['vite.config.ts.ejs', 'index.html.ejs', '.env.example.ejs', 'tailwind.config.js.ejs', 'postcss.config.js.ejs'];
+  const configFiles = [
+    'vite.config.ts.ejs',
+    'index.html.ejs',
+    '.env.example.ejs',
+    'tailwind.config.js.ejs',
+    'postcss.config.js.ejs',
+    'next.config.js.ejs',
+    'webpack.config.js.ejs',
+  ];
   
   for (const file of configFiles) {
     const sourcePath = path.join(templatesDir, file);

@@ -69,6 +69,13 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     await generateApp({
       projectName: config.projectName,
       projectPath,
+      appName: 'website',
+      appType: 'website',
+    });
+    
+    await generateApp({
+      projectName: config.projectName,
+      projectPath,
       appName: 'dashboard',
       appType: 'dashboard',
     });
@@ -80,7 +87,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       appType: 'api',
     });
     
-    appSpinner.succeed('Applications generated (dashboard, api)');
+    appSpinner.succeed('Applications generated (website, dashboard, api)');
   } catch (error) {
     appSpinner.fail('Failed to generate applications');
     throw error;
