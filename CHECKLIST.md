@@ -7,55 +7,55 @@ Track progress as you build the Hatch CLI tool.
 ## Phase 1: CLI Foundation (Week 1)
 
 ### Project Setup
-- [ ] Initialize package.json with correct metadata
-- [ ] Install core dependencies (commander, inquirer, chalk, etc.)
-- [ ] Install dev dependencies (TypeScript, eslint, prettier)
-- [ ] Configure TypeScript (tsconfig.json)
-- [ ] Create project directory structure
-- [ ] Set up build scripts
-- [ ] Configure ESLint and Prettier
-- [ ] Initialize git repository
+- [x] Initialize package.json with correct metadata
+- [x] Install core dependencies (commander, inquirer, chalk, etc.)
+- [x] Install dev dependencies (TypeScript, eslint, prettier)
+- [x] Configure TypeScript (tsconfig.json)
+- [x] Create project directory structure
+- [x] Set up build scripts
+- [x] Configure ESLint and Prettier
+- [x] Initialize git repository
 
 ### Core CLI
-- [ ] Create src/index.ts entry point
-- [ ] Implement CLI program with Commander
-- [ ] Add version flag
-- [ ] Add help text
-- [ ] Create shebang for executable
+- [x] Create src/index.ts entry point
+- [x] Implement CLI program with Commander
+- [x] Add version flag
+- [x] Add help text
+- [x] Create shebang for executable
 
 ### Init Command
-- [ ] Create src/commands/init.ts
-- [ ] Implement interactive prompts (project name, description, story)
-- [ ] Add command options (--story, --no-install, etc.)
-- [ ] Validate user input
-- [ ] Add loading spinners (ora)
-- [ ] Add colored output (chalk)
+- [x] Create src/commands/init.ts
+- [x] Implement interactive prompts (project name, description, story)
+- [x] Add command options (--story, --no-install, etc.)
+- [x] Validate user input
+- [x] Add loading spinners (ora)
+- [x] Add colored output (chalk)
 
 ### Story Parser
-- [ ] Create src/parsers/story-parser.ts
-- [ ] Implement keyword extraction
-- [ ] Extract domain from story
-- [ ] Identify potential entities (basic)
-- [ ] Extract features
-- [ ] Define ParsedStory interface
+- [x] Create src/parsers/story-parser.ts
+- [x] Implement keyword extraction
+- [x] Extract domain from story
+- [x] Identify potential entities (basic)
+- [x] Extract features
+- [x] Define ParsedStory interface
 - [ ] Add unit tests for parser
 
 ### Theme Generator
-- [ ] Create src/parsers/theme-generator.ts
-- [ ] Map domains to color schemes
-- [ ] Define Theme interface
-- [ ] Generate typography suggestions
+- [x] Create src/parsers/theme-generator.ts
+- [x] Map domains to color schemes
+- [x] Define Theme interface
+- [x] Generate typography suggestions
 - [ ] Add custom theme override option
 
 ### Workspace Generator (Basic)
-- [ ] Create src/generators/workspace.ts
-- [ ] Generate project directory
-- [ ] Generate package.json
-- [ ] Generate README.md with story
-- [ ] Generate .gitignore
-- [ ] Generate .env.example
-- [ ] Initialize git repository
-- [ ] Run pnpm install (optional)
+- [x] Create src/generators/workspace.ts
+- [x] Generate project directory
+- [x] Generate package.json
+- [x] Generate README.md with story
+- [x] Generate .gitignore
+- [x] Generate .env.example
+- [x] Initialize git repository
+- [x] Run pnpm install (optional)
 
 ### Testing
 - [ ] Test CLI builds successfully
