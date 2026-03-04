@@ -6,6 +6,7 @@ import ejs from 'ejs';
 import { ParsedStory } from '../parsers/story-parser';
 import { Theme } from '../parsers/theme-generator';
 import { generateLibrary } from './library';
+import { generateApp } from './app';
 
 export interface WorkspaceConfig {
   projectName: string;
@@ -59,6 +60,22 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     libSpinner.succeed('Shared libraries generated (shared, auth, ui)');
   } catch (error) {
     libSpinner.fail('Failed to generate libraries');
+    throw error;
+  }
+  
+  // Generate apps
+  const appSpinner = ora('Generating applications...').start();
+  try {
+    await generateApp({
+      projectName: config.projectName,
+      projectPath,
+      appName: 'dashboard',
+      appType: 'dashboard',
+    });
+    
+    appSpinner.succeed('Applications generated (dashboard)');
+  } catch (error) {
+    appSpinner.fail('Failed to generate applications');
     throw error;
   }
   
