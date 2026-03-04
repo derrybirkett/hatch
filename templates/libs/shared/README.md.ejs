@@ -1,0 +1,48 @@
+# @<%= projectName %>/<%= libraryName %>
+
+Shared utilities, types, and constants for the <%= projectName %> workspace.
+
+## What's Inside
+
+- **Types & Interfaces**: Common TypeScript types used across the workspace
+- **API Client**: HTTP client wrapper with error handling
+- **Utilities**: Helper functions for common operations
+- **Constants**: Shared constants and configuration
+- **Validation**: Zod schemas for data validation
+
+## Usage
+
+```typescript
+import { apiClient } from '@<%= projectName %>/<%= libraryName %>';
+import type { User, ApiResponse } from '@<%= projectName %>/<%= libraryName %>';
+
+// Make API calls
+const response = await apiClient.get<User>('/users/me');
+
+// Use shared types
+const user: User = response.data;
+```
+
+## Exports
+
+- `apiClient` - HTTP client for making API requests
+- `formatDate` - Date formatting utility
+- `formatCurrency` - Currency formatting utility
+- `cn` - Tailwind class name utility
+- Type definitions for common entities
+- Zod validation schemas
+
+## Development
+
+This library is part of the <%= projectName %> Nx workspace.
+
+```bash
+# Build the library
+nx build <%= libraryName %>
+
+# Test the library
+nx test <%= libraryName %>
+
+# Lint the library
+nx lint <%= libraryName %>
+```

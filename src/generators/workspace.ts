@@ -5,6 +5,7 @@ import ora from 'ora';
 import ejs from 'ejs';
 import { ParsedStory } from '../parsers/story-parser';
 import { Theme } from '../parsers/theme-generator';
+import { generateLibrary } from './library';
 
 export interface WorkspaceConfig {
   projectName: string;
@@ -30,6 +31,21 @@ export async function generateWorkspace(config: WorkspaceConfig) {
   
   // Generate base structure
   await generateBaseStructure(projectPath, config);
+  
+  // Generate shared libraries
+  const libSpinner = ora('Generating shared libraries...').start();
+  try {
+    await generateLibrary({
+      projectName: config.projectName,
+      projectPath,
+      libraryName: 'shared',
+      libraryType: 'shared',
+    });
+    libSpinner.succeed('Shared libraries generated');
+  } catch (error) {
+    libSpinner.fail('Failed to generate libraries');
+    throw error;
+  }
   
   // Install dependencies
   if (config.install) {
