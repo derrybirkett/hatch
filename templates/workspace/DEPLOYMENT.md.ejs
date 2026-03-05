@@ -1,0 +1,295 @@
+# Deployment Guide
+
+Guide for deploying <%= projectName %> to various platforms.
+
+## Table of Contents
+
+- [Docker Deployment](#docker-deployment)
+- [Vercel (Website & Dashboard)](#vercel-deployment)
+- [Railway (API)](#railway-deployment)
+- [Render (API)](#render-deployment)
+- [Environment Variables](#environment-variables)
+
+---
+
+## Docker Deployment
+
+### Prerequisites
+
+- Docker and Docker Compose installed
+- Environment variables configured
+
+### Local Development with Docker
+
+1. Build and start all services:
+```bash
+docker-compose up --build
+```
+
+2. Services will be available at:
+- Website: http://localhost:3001
+- Dashboard: http://localhost:3000
+- API: http://localhost:3333
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
+
+### Production Docker Deployment
+
+1. Build images:
+```bash
+docker build -f apps/api/Dockerfile -t <%= projectName %>-api .
+docker build -f apps/dashboard/Dockerfile -t <%= projectName %>-dashboard .
+docker build -f apps/website/Dockerfile -t <%= projectName %>-website .
+```
+
+2. Push to registry:
+```bash
+docker tag <%= projectName %>-api your-registry/<%= projectName %>-api:latest
+docker push your-registry/<%= projectName %>-api:latest
+```
+
+3. Deploy using docker-compose or Kubernetes.
+
+---
+
+## Vercel Deployment
+
+### Website (Next.js)
+
+1. Install Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Deploy:
+```bash
+cd apps/website
+vercel --prod
+```
+
+3. Configure environment variables in Vercel dashboard:
+- `NEXT_PUBLIC_API_URL`: Your API URL
+- `NEXT_PUBLIC_DASHBOARD_URL`: Your dashboard URL
+
+### Dashboard (React + Vite)
+
+1. Build the dashboard:
+```bash
+npx nx build dashboard --prod
+```
+
+2. Deploy the `dist/apps/dashboard` directory:
+```bash
+cd dist/apps/dashboard
+vercel --prod
+```
+
+3. Configure environment variables:
+- `VITE_API_URL`: Your API URL
+
+---
+
+## Railway Deployment
+
+### API (NestJS)
+
+1. Install Railway CLI:
+```bash
+npm install -g @railway/cli
+```
+
+2. Login:
+```bash
+railway login
+```
+
+3. Initialize project:
+```bash
+railway init
+```
+
+4. Add PostgreSQL:
+```bash
+railway add postgresql
+```
+
+5. Deploy:
+```bash
+railway up
+```
+
+6. Configure environment variables in Railway dashboard:
+- `JWT_SECRET`: Strong secret for JWT tokens
+- `CORS_ORIGIN`: Comma-separated list of allowed origins
+- `DATABASE_URL`: Automatically set by Railway
+- `NODE_ENV`: production
+
+---
+
+## Render Deployment
+
+### API (NestJS)
+
+1. Connect your GitHub repository to Render
+
+2. Create a new Web Service:
+- **Build Command**: `npm install && npx nx build api --prod`
+- **Start Command**: `node dist/apps/api/main.js`
+- **Environment**: Node
+
+3. Add PostgreSQL database:
+- Create a new PostgreSQL database in Render
+- Copy the Internal Database URL
+
+4. Configure environment variables:
+- `DATABASE_URL`: Internal database URL from Render
+- `JWT_SECRET`: Strong secret for JWT tokens
+- `CORS_ORIGIN`: Your frontend URLs
+- `NODE_ENV`: production
+- `PORT`: 3333
+
+5. Deploy automatically on push to main branch
+
+---
+
+## Environment Variables
+
+### API (.env)
+
+```env
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/<%= projectName %>_db
+
+# Redis (optional)
+REDIS_URL=redis://localhost:6379
+
+# JWT
+JWT_SECRET=your-super-secret-jwt-key-change-this
+
+# Server
+PORT=3333
+NODE_ENV=production
+
+# CORS
+CORS_ORIGIN=http://localhost:3000,http://localhost:3001,https://your-dashboard.com,https://your-website.com
+
+# Stripe (if using)
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+```
+
+### Dashboard (.env)
+
+```env
+VITE_API_URL=http://localhost:3333
+# or production: https://api.your-domain.com
+```
+
+### Website (.env)
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3333
+NEXT_PUBLIC_DASHBOARD_URL=http://localhost:3000
+# or production:
+# NEXT_PUBLIC_API_URL=https://api.your-domain.com
+# NEXT_PUBLIC_DASHBOARD_URL=https://dashboard.your-domain.com
+```
+
+---
+
+## GitHub Actions Secrets
+
+Configure these secrets in your GitHub repository settings:
+
+### Vercel
+- `VERCEL_TOKEN`: Your Vercel authentication token
+- `VERCEL_ORG_ID`: Your Vercel organization ID
+- `VERCEL_PROJECT_ID`: Your Vercel project ID
+
+### Docker Hub
+- `DOCKERHUB_USERNAME`: Your Docker Hub username
+- `DOCKERHUB_TOKEN`: Your Docker Hub access token
+
+### Railway (optional)
+- `RAILWAY_TOKEN`: Your Railway authentication token
+
+### Render (optional)
+- `RENDER_API_KEY`: Your Render API key
+- `RENDER_SERVICE_ID`: Your Render service ID
+
+---
+
+## Health Checks
+
+All services include health check endpoints:
+
+- **API**: `GET /api/health`
+- **Dashboard**: `GET /health` (nginx)
+- **Website**: `GET /` (Next.js)
+
+---
+
+## Monitoring & Logging
+
+### Recommended Tools
+
+- **Application Monitoring**: Sentry, DataDog, New Relic
+- **Log Management**: LogRocket, Papertrail, Loggly
+- **Uptime Monitoring**: UptimeRobot, Pingdom
+- **Error Tracking**: Sentry, Rollbar
+
+---
+
+## Scaling
+
+### Horizontal Scaling
+
+- Use Docker Swarm or Kubernetes for orchestration
+- Configure load balancer (nginx, HAProxy, or cloud provider)
+- Use Redis for session management and caching
+- Configure database connection pooling
+
+### Vertical Scaling
+
+- Increase container resources
+- Optimize database queries
+- Enable caching layers
+- Use CDN for static assets
+
+---
+
+## Troubleshooting
+
+### Build Fails
+
+- Check Node version (requires Node 22+)
+- Verify all dependencies are installed
+- Check TypeScript errors
+- Review build logs
+
+### Services Not Connecting
+
+- Verify environment variables
+- Check CORS configuration
+- Verify network connectivity
+- Check firewall rules
+
+### Database Connection Issues
+
+- Verify DATABASE_URL format
+- Check database is running
+- Verify credentials
+- Check connection limits
+
+---
+
+## Support
+
+For issues or questions:
+- Check the main README.md
+- Review error logs
+- Contact support
+
+---
+
+Generated by Hatch CLI

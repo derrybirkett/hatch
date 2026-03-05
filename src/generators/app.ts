@@ -105,6 +105,9 @@ async function copyAppConfig(templatesDir: string, appPath: string, templateData
     'postcss.config.js.ejs',
     'next.config.js.ejs',
     'webpack.config.js.ejs',
+    'vercel.json.ejs',
+    'Dockerfile',
+    'nginx.conf',
   ];
   
   for (const file of configFiles) {
@@ -112,7 +115,13 @@ async function copyAppConfig(templatesDir: string, appPath: string, templateData
     const destPath = path.join(appPath, file.replace('.ejs', ''));
     
     if (await fs.pathExists(sourcePath)) {
-      await renderTemplate(sourcePath, destPath, templateData);
+      // If it's an EJS template, render it
+      if (file.endsWith('.ejs')) {
+        await renderTemplate(sourcePath, destPath, templateData);
+      } else {
+        // If it's not an EJS template, just copy it
+        await fs.copy(sourcePath, destPath);
+      }
     }
   }
 }

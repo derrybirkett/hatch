@@ -218,6 +218,38 @@ async function generateBaseStructure(
     templateData
   );
   
+  // Create DevOps files (Docker, CI/CD)
+  await renderTemplate(
+    path.join(templatesDir, 'docker-compose.yml.ejs'),
+    path.join(projectPath, 'docker-compose.yml'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, '.dockerignore.ejs'),
+    path.join(projectPath, '.dockerignore'),
+    templateData
+  );
+  
+  await renderTemplate(
+    path.join(templatesDir, 'DEPLOYMENT.md.ejs'),
+    path.join(projectPath, 'DEPLOYMENT.md'),
+    templateData
+  );
+  
+  // Create GitHub Actions workflows
+  await fs.ensureDir(path.join(projectPath, '.github/workflows'));
+  await renderTemplate(
+    path.join(templatesDir, '.github/workflows/ci.yml.ejs'),
+    path.join(projectPath, '.github/workflows/ci.yml'),
+    templateData
+  );
+  await renderTemplate(
+    path.join(templatesDir, '.github/workflows/deploy.yml.ejs'),
+    path.join(projectPath, '.github/workflows/deploy.yml'),
+    templateData
+  );
+  
   // Create placeholder README files for directory structure
   await createPlaceholderReadme(path.join(projectPath, 'apps'), 'Applications');
   await createPlaceholderReadme(path.join(projectPath, 'libs'), 'Shared Libraries');
