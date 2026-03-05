@@ -2,169 +2,372 @@
 
 <%= description %>
 
-> Generated with [Hatch](https://github.com/derrybirkett/hatch) 🐣
+> 🐣 Generated with [Hatch CLI](https://github.com/derrybirkett/hatch) - Bootstrap production-ready SaaS applications in minutes
 
-## User Story
+## 📖 User Story
 
 <%= story %>
 
-## Project Details
+## 🎨 Project Details
 
 - **Domain**: <%= parsedStory.domain %>
 - **Features**: <%= parsedStory.features.join(', ') %>
-
-## Theme
-
 - **Primary Color**: <%= theme.primaryColor %>
 - **Secondary Color**: <%= theme.secondaryColor %>
-- **Accent Color**: <%= theme.accentColor %>
-- **Font Family**: <%= theme.fontFamily %>
+- **Font**: <%= theme.fontFamily %>
 
-## Nx Workspace
+---
 
-This is an [Nx monorepo](https://nx.dev) workspace containing multiple apps and shared libraries.
+## 📦 What's Included
 
-### Apps
+This is a production-ready [Nx monorepo](https://nx.dev) with:
 
-- **website** - Public-facing Next.js website (landing page, marketing)
-- **dashboard** - React dashboard app (user portal, authenticated features)
-- **api** - NestJS backend API (REST endpoints, database, auth)
-- **blog** - Next.js blog with MDX support
-- **docs** - Documentation site with Nextra
+### 🌐 Applications
 
-### Libraries
+| App | Technology | Port | Description |
+|-----|------------|------|-------------|
+| **website** | Next.js 15 (App Router) | 3001 | Marketing site with landing page and pricing |
+| **dashboard** | React 18 + Vite | 3000 | User dashboard with authentication |
+| **api** | NestJS 11 | 3333 | RESTful API with JWT authentication |
 
-- **@<%= projectName %>/ui** - Shared UI components (shadcn/ui, Tailwind)
-- **@<%= projectName %>/auth** - Authentication logic, hooks, and context
-- **@<%= projectName %>/billing** - Stripe integration and billing components
-- **@<%= projectName %>/shared** - Shared utilities, types, and constants
+### 📚 Shared Libraries
 
-## Getting Started
+| Library | Purpose |
+|---------|---------|
+| `@<%= projectName %>/ui` | Reusable UI components (Button, Input, Card, etc.) with Tailwind CSS |
+| `@<%= projectName %>/auth` | Authentication context, hooks, and protected routes |
+| `@<%= projectName %>/shared` | Shared types, utilities, API client, and validation |
+
+### 🧪 Testing
+
+- **E2E Tests** - Playwright tests for complete user journeys (signup → login → dashboard → logout)
+- Test configuration in `e2e/` directory
+
+### 🐳 DevOps
+
+- **Docker** - Multi-stage Dockerfiles for all apps
+- **docker-compose.yml** - Full stack orchestration with PostgreSQL and Redis
+- **GitHub Actions** - CI/CD workflows for testing and deployment
+- **Deployment configs** - Ready for Vercel, Railway, Render, or Docker Hub
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 22+ ([Download](https://nodejs.org/))
+- npm or pnpm
+- (Optional) Docker for containerized development
+
+### Install Dependencies
 
 ```bash
-# Install dependencies
 npm install
-
-# Start all apps in development mode
-npm run dev
-
-# Or start individual apps
-npm run website:dev    # Start website on http://localhost:3000
-npm run dashboard:dev  # Start dashboard on http://localhost:4200
-npm run api:dev        # Start API on http://localhost:3333
-
-# Run database migrations (first time setup)
-npm run db:migrate
-
-# Run tests
-npm test
-
-# Lint code
-npm run lint
-
-# Build for production
-npm run build
 ```
 
-## Project Structure
+### Development Mode
+
+Start all services:
+
+```bash
+# Using Nx
+nx run-many -t serve
+
+# Or individually
+nx serve website     # http://localhost:3001
+nx serve dashboard   # http://localhost:3000
+nx serve api         # http://localhost:3333
+```
+
+### Using Docker Compose
+
+```bash
+# Start all services with PostgreSQL and Redis
+docker-compose up
+
+# Build and start
+docker-compose up --build
+
+# Run in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+---
+
+## 🏗️ Project Structure
 
 ```
 <%= projectName %>/
 ├── apps/
-│   ├── website/          # Next.js marketing site
-│   ├── dashboard/        # React dashboard
-│   ├── api/              # NestJS backend
-│   ├── blog/             # Next.js blog
-│   └── docs/             # Documentation site
+│   ├── website/          # Next.js 15 marketing site (App Router)
+│   │   ├── app/          # Pages and layouts
+│   │   ├── public/       # Static assets
+│   │   ├── Dockerfile    # Production container
+│   │   └── vercel.json   # Vercel deployment config
+│   ├── dashboard/        # React 18 + Vite user dashboard
+│   │   ├── src/          # Source code
+│   │   │   ├── pages/    # Login, Signup, Dashboard, Profile, Settings
+│   │   │   ├── components/ # DashboardLayout
+│   │   │   └── App.tsx   # Routes and providers
+│   │   ├── Dockerfile    # Production container with nginx
+│   │   └── nginx.conf    # Nginx configuration
+│   └── api/              # NestJS 11 backend API
+│       ├── src/          # Source code
+│       │   ├── auth/     # Auth module (register, login, JWT)
+│       │   ├── users/    # Users service
+│       │   └── main.ts   # Application entry
+│       ├── Dockerfile    # Production container
+│       └── webpack.config.js # Build configuration
 ├── libs/
-│   ├── ui/               # Shared UI components
-│   ├── auth/             # Auth context & hooks
-│   ├── billing/          # Billing & Stripe
-│   └── shared/           # Utilities & types
-├── e2e/                  # E2E tests (Playwright)
-├── tools/                # Custom generators & scripts
+│   ├── ui/               # @<%= projectName %>/ui
+│   │   └── src/
+│   │       ├── Button/   # Button component
+│   │       ├── Input/    # Input component
+│   │       ├── Card/     # Card component
+│   │       ├── Badge/    # Badge component
+│   │       └── Alert/    # Alert component
+│   ├── auth/             # @<%= projectName %>/auth
+│   │   └── src/
+│   │       ├── AuthContext.tsx    # Auth provider and context
+│   │       ├── useAuth.ts         # Auth hook
+│   │       ├── useUser.ts         # User hook
+│   │       └── ProtectedRoute.tsx # Route guard
+│   └── shared/           # @<%= projectName %>/shared
+│       └── src/
+│           ├── api/      # API client
+│           ├── types/    # TypeScript types
+│           ├── utils/    # Utility functions
+│           ├── constants/ # Constants
+│           └── validation/ # Zod schemas
+├── e2e/                  # Playwright E2E tests
+│   ├── tests/
+│   │   └── auth-flow.spec.ts  # Complete user journey
+│   ├── playwright.config.ts   # Multi-browser config
+│   └── package.json
+├── .github/
+│   └── workflows/
+│       ├── ci.yml        # CI pipeline (build, test, lint)
+│       └── deploy.yml    # Deployment workflows
+├── docker-compose.yml    # Full stack orchestration
+├── .dockerignore         # Docker build optimization
+├── DEPLOYMENT.md         # Deployment guide
 ├── nx.json               # Nx configuration
 ├── tsconfig.base.json    # Base TypeScript config
 └── package.json          # Workspace dependencies
 ```
 
-## Development Workflow
+---
 
-### Run Affected Commands
+## 🧪 Testing
 
-Nx intelligently runs tasks only for projects affected by your changes:
-
-```bash
-# Build only affected projects
-npm run affected:build
-
-# Test only affected projects
-npm run affected:test
-
-# Lint only affected projects
-npm run affected:lint
-```
-
-### Visualize Project Graph
+### E2E Tests with Playwright
 
 ```bash
-npm run graph
+# Install browsers
+cd e2e && npm run install:browsers
+
+# Run tests (requires all apps running)
+cd e2e && npm test
+
+# Run with UI mode
+cd e2e && npm run test:ui
+
+# Run in headed mode (see browser)
+cd e2e && npm run test:headed
+
+# View test report
+cd e2e && npm run report
 ```
 
-### Database Management
+### Running Tests with Nx
 
 ```bash
-# Run Prisma migrations
-npm run db:migrate
+# Run all tests
+nx run-many -t test
 
-# Seed database
-npm run db:seed
+# Run specific app tests
+nx test api
+nx test dashboard
 
-# Open Prisma Studio
-npm run db:studio
+# Run E2E tests
+nx test e2e
 ```
-
-## Generated Features
-
-<% parsedStory.features.forEach(function(feature) { %>
-- **<%= feature %>**: Ready to customize
-<% }); %>
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and configure:
-
-```bash
-cp .env.example .env
-```
-
-See `.env.example` for all required variables.
-
-## Tech Stack
-
-- **Frontend**: Next.js, React, Tailwind CSS, shadcn/ui
-- **Backend**: NestJS, Prisma, PostgreSQL
-- **Auth**: JWT, bcrypt
-- **Billing**: Stripe
-- **Testing**: Playwright, Vitest
-- **Monorepo**: Nx
-
-## Next Steps
-
-1. Configure environment variables in `.env`
-2. Set up PostgreSQL database
-3. Run migrations: `npm run db:migrate`
-4. Start development servers: `npm run dev`
-5. Customize the generated apps and libraries
-6. Deploy to your favorite platform
-
-## Learn More
-
-- [Nx Documentation](https://nx.dev)
-- [Next.js Documentation](https://nextjs.org/docs)
-- [NestJS Documentation](https://docs.nestjs.com)
-- [Prisma Documentation](https://www.prisma.io/docs)
 
 ---
 
-**Generated by Hatch** • [Documentation](https://github.com/derrybirkett/hatch) • [Report Issues](https://github.com/derrybirkett/hatch/issues)
+## 📊 Architecture
+
+### Authentication Flow
+
+```
+1. User visits website (localhost:3001)
+2. Clicks "Get Started" → Redirects to dashboard signup (localhost:3000/signup)
+3. Submits signup form → API (localhost:3333/api/auth/register)
+4. API creates user, hashes password, returns JWT token
+5. Dashboard stores token in localStorage
+6. User redirected to dashboard (localhost:3000/dashboard)
+7. Protected routes verify token before rendering
+```
+
+### Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Website** | Next.js 15, App Router, Tailwind CSS, Inter font |
+| **Dashboard** | React 18, Vite, React Router 7, Tailwind CSS |
+| **API** | NestJS 11, TypeScript, JWT, bcrypt |
+| **Libraries** | Shared React components and utilities |
+| **Database** | PostgreSQL 16 (in docker-compose) |
+| **Cache** | Redis 7 (in docker-compose) |
+| **E2E Testing** | Playwright with multi-browser support |
+| **Build** | Nx 21, TypeScript 5.8 (strict mode) |
+| **Containerization** | Docker multi-stage builds |
+| **CI/CD** | GitHub Actions |
+
+---
+
+## 🚢 Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for comprehensive deployment guides.
+
+### Quick Deploy Options
+
+**Vercel (Website & Dashboard)**
+```bash
+npm install -g vercel
+cd apps/website && vercel --prod
+```
+
+**Docker (All Apps)**
+```bash
+docker-compose up --build -d
+```
+
+**Railway (API)**
+```bash
+npm install -g @railway/cli
+railway up --service api
+```
+
+### Environment Variables
+
+**API** (`.env`)
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/<%= projectName %>_db
+JWT_SECRET=your-super-secret-jwt-key
+PORT=3333
+NODE_ENV=production
+```
+
+**Dashboard** (`.env`)
+```env
+VITE_API_URL=http://localhost:3333
+```
+
+**Website** (`.env`)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3333
+NEXT_PUBLIC_DASHBOARD_URL=http://localhost:3000
+```
+
+---
+
+## 🛠️ Development Workflow
+
+### Nx Commands
+
+```bash
+# Build all apps
+nx run-many -t build
+
+# Build specific app
+nx build website
+nx build dashboard
+nx build api
+
+# Lint all projects
+nx run-many -t lint
+
+# Format code
+nx format:write
+
+# Visualize project graph
+nx graph
+
+# Run affected commands (only build/test what changed)
+nx affected:build
+nx affected:test
+nx affected:lint
+```
+
+### Adding a New Library
+
+```bash
+nx generate @nx/react:library my-library
+```
+
+### Adding a New Component
+
+```bash
+nx generate @nx/react:component my-component --project=ui
+```
+
+---
+
+## 🎯 Features
+
+<% parsedStory.features.forEach(function(feature) { %>
+- **<%= feature %>**: Ready to customize in the generated apps
+<% }); %>
+
+---
+
+## 📚 Documentation
+
+- [Deployment Guide](./DEPLOYMENT.md) - Deploy to Vercel, Railway, Render, or Docker
+- [Nx Documentation](https://nx.dev) - Learn about Nx monorepo
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js
+- [NestJS Documentation](https://docs.nestjs.com) - Learn about NestJS
+- [Playwright Documentation](https://playwright.dev) - Learn about E2E testing
+
+---
+
+## 🤝 Contributing
+
+This project was generated by Hatch CLI. To customize:
+
+1. Update the apps in `apps/` directory
+2. Add or modify shared libraries in `libs/`
+3. Update E2E tests in `e2e/`
+4. Configure deployment in `.github/workflows/`
+
+---
+
+## 📄 License
+
+[Your License Here]
+
+---
+
+## 🔗 Links
+
+- **Website**: [Add your website URL]
+- **Documentation**: [Add your docs URL]
+- **Repository**: [Add your GitHub URL]
+
+---
+
+<div align="center">
+
+**Built with ❤️ using [Hatch CLI](https://github.com/derrybirkett/hatch)**
+
+Generated on <%= new Date().toLocaleDateString() %>
+
+</div>

@@ -24,14 +24,34 @@ export async function generateWorkspace(config: WorkspaceConfig) {
   
   // Check if directory already exists
   if (await fs.pathExists(projectPath)) {
-    throw new Error(`Directory ${config.projectName} already exists`);
+    throw new Error(`Directory '${config.projectName}' already exists`);
+  }
+
+  // Validate project name
+  if (!/^[a-z0-9-]+$/.test(config.projectName)) {
+    throw new Error('Project name must contain only lowercase letters, numbers, and hyphens');
   }
   
-  // Create project directory
-  await fs.ensureDir(projectPath);
+  try {
+    // Create project directory
+    await fs.ensureDir(projectPath);
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.message.includes('EACCES')) {
+        throw new Error('Permission denied: Cannot create project directory. Check your permissions.');
+      } else if (error.message.includes('ENOSPC')) {
+        throw new Error('Not enough disk space to create project.');
+      }
+    }
+    throw new Error(`Failed to create project directory: ${error instanceof Error ? error.message : String(error)}`);
+  }
   
-  // Generate base structure
-  await generateBaseStructure(projectPath, config);
+  try {
+    // Generate base structure
+    await generateBaseStructure(projectPath, config);
+  } catch (error) {
+    throw new Error(`Failed to generate base structure: ${error instanceof Error ? error.message : String(error)}`);
+  }
   
   // Generate shared libraries
   const libSpinner = ora('Generating shared libraries...').start();
@@ -60,7 +80,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     libSpinner.succeed('Shared libraries generated (shared, auth, ui)');
   } catch (error) {
     libSpinner.fail('Failed to generate libraries');
-    throw error;
+    throw new Error(`Library generation failed: ${error instanceof Error ? error.message : String(error)}`);
   }
   
   // Generate apps
@@ -90,7 +110,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     appSpinner.succeed('Applications generated (website, dashboard, api)');
   } catch (error) {
     appSpinner.fail('Failed to generate applications');
-    throw error;
+    throw new Error(`Application generation failed: ${error instanceof Error ? error.message : String(error)}`);
   }
   
   // Generate E2E tests
@@ -100,18 +120,18 @@ export async function generateWorkspace(config: WorkspaceConfig) {
     e2eSpinner.succeed('E2E tests generated with Playwright');
   } catch (error) {
     e2eSpinner.fail('Failed to generate E2E tests');
-    throw error;
+    throw new Error(`E2E test generation failed: ${error instanceof Error ? error.message : String(error)}`);
   }
   
   // Install dependencies
   if (config.install) {
-    const spinner = ora('Installing dependencies...').start();
+    const spinner = ora('Installing dependencies (this may take a few minutes)...').start();
     try {
       await installDependencies(projectPath);
-      spinner.succeed('Dependencies installed');
+      spinner.succeed('Dependencies installed successfully');
     } catch (error) {
       spinner.fail('Failed to install dependencies');
-      throw error;
+      throw new Error(`npm install failed: ${error instanceof Error ? error.message : String(error)}. You can install them manually later.`);
     }
   }
   
@@ -122,7 +142,8 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       await initGit(projectPath);
       spinner.succeed('Git repository initialized');
     } catch (error) {
-      spinner.warn('Git initialization skipped (git not available)');
+      spinner.warn('Git initialization skipped (git not found or not configured)');
+      // Don't throw error, just warn - git is optional
     }
   }
 }

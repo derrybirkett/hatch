@@ -1,424 +1,1022 @@
-# Hatch - Plan Summary
+<div align="center">
 
-**Comprehensive SaaS Bootstrapping Tool**
+# 🐣 Hatch
 
----
+**Bootstrap production-ready SaaS applications in seconds**
 
-## 📚 Documentation Overview
+[![Version](https://img.shields.io/badge/version-0.7.0-blue.svg)](https://github.com/yourusername/hatch)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
+[![Nx](https://img.shields.io/badge/Nx-21.3-blueviolet.svg)](https://nx.dev)
 
-This plan consists of 5 comprehensive documents:
+[Features](#-features) • [Quick Start](#-quick-start) • [Generated Stack](#-generated-stack) • [Documentation](#-documentation) • [Examples](#-examples) • [Roadmap](#-roadmap)
 
-1. **PLAN.md** - Master plan with complete feature breakdown
-2. **ROADMAP.md** - 8-week implementation roadmap with priorities
-3. **ARCHITECTURE.md** - Technical architecture and system design
-4. **GETTING_STARTED.md** - Hands-on development guide with code examples
-5. **CHECKLIST.md** - Detailed task tracking (200+ items)
+</div>
 
 ---
 
 ## 🎯 What is Hatch?
 
-Hatch is a CLI-first tool that **bootstraps complete SaaS applications** from natural language user stories. It generates a production-ready Nx monorepo with:
+Hatch is a **CLI tool that generates complete, production-ready SaaS applications** from user stories. In under 3 minutes, you get a fully-configured Nx monorepo with:
 
-### Generated Product Surfaces
-1. **Website** - Marketing landing page (Next.js)
-2. **Dashboard** - Main SaaS app with auth, profile, billing (React)
-3. **Blog** - Content platform (Next.js + MDX)
-4. **Docs** - Product documentation (Nextra)
-5. **API** - Backend with NestJS + Prisma + PostgreSQL
+### 🚀 Applications (3)
+- **Website** (Next.js 15) - Marketing site with landing page and pricing
+- **Dashboard** (React 18 + Vite) - Authenticated SPA with user management  
+- **API** (NestJS 11) - RESTful backend with JWT authentication
 
-### Core Features
-- ✅ User authentication (email/password + OAuth ready)
-- ✅ User profile management
-- ✅ Stripe billing integration
-- ✅ Responsive UI with shadcn/ui
-- ✅ E2E tests with Playwright
-- ✅ CI/CD workflows
-- ✅ Docker containerization
-- ✅ Type-safe development (TypeScript strict mode)
+### 📦 Libraries (3)
+- **@your-app/ui** - Reusable React components (Button, Input, Card, Badge, Alert)
+- **@your-app/auth** - Authentication context and protected routes
+- **@your-app/shared** - Shared utilities, types, and API client
+
+### ✅ DevOps & Testing
+- **E2E Tests** - Playwright tests for all critical user flows (Chromium, Firefox, WebKit)
+- **Docker** - Multi-stage builds for all apps + docker-compose with PostgreSQL & Redis
+- **CI/CD** - GitHub Actions workflows for testing and deployment
+- **TypeScript** - Strict mode enabled across the entire codebase
+
+### 📚 Documentation  
+- Comprehensive README with quick start guide
+- Architecture documentation with diagrams
+- Deployment guide for multiple platforms (Vercel, Railway, Render, Docker)
+- Environment variable examples
 
 ---
 
-## 🚀 Quick Start Example
+## 🚀 Quick Start
 
 ```bash
-# Install Hatch CLI
+# Install Hatch CLI globally
 npm install -g hatch-cli
 
-# Generate a SaaS application
-hatch init my-fitness-app \
-  --story "A fitness tracking app where users can log workouts, track progress, and share achievements"
+# Generate your SaaS application
+hatch init
 
-# Navigate and start
+# Answer the prompts:
+# → Project name: my-fitness-app
+# → Description: A fitness tracking SaaS application
+# → User story: Users can track workouts, monitor progress, and share achievements
+# → Theme: vibrant
+
+# Navigate and install dependencies
 cd my-fitness-app
-pnpm install
-pnpm dev
+npm install
 
-# Now running:
-# - Website: http://localhost:3000
-# - Dashboard: http://localhost:4200
-# - API: http://localhost:3333
-# - Blog: http://localhost:3002
-# - Docs: http://localhost:3001
+# Start all development servers
+npm run dev
 
-# Run tests
-pnpm test:e2e
+# Your apps are now running:
+# ✓ Website:   http://localhost:3001 (Next.js marketing site)
+# ✓ Dashboard: http://localhost:3000 (React SPA)
+# ✓ API:       http://localhost:3333 (NestJS backend)
+
+# Run E2E tests across all browsers
+npm run test:e2e
 
 # Build for production
-pnpm build
+npm run build:all
 ```
 
 ---
 
-## 📋 Technology Stack
+## ✨ Features
 
-| Layer | Technology |
-|-------|-----------|
-| **Monorepo** | Nx 18+ |
-| **Frontend** | React 18+, Next.js 14+ |
-| **UI** | shadcn/ui + Radix + Tailwind CSS |
-| **Backend** | NestJS |
-| **Database** | PostgreSQL + Prisma ORM |
-| **Auth** | Auth.js (NextAuth) |
-| **Billing** | Stripe |
-| **Testing** | Playwright + Vitest |
-| **Deployment** | Vercel, Railway, Docker |
+### 🎨 **Story-Driven Generation**
+Describe your SaaS idea in plain English, and Hatch generates matching code:
+- Automatically creates project structure
+- Parses user story to extract features  
+- Generates theme colors and branding
+- Creates pages based on your description
+
+### 🔐 **Authentication Built-In**
+Complete authentication system ready to use:
+- JWT-based authentication
+- Login and signup pages
+- Protected routes with redirects
+- User context with React hooks (`useAuth`, `useUser`)
+- Password hashing with bcrypt (salt rounds: 10)
+- Token storage in localStorage
+
+### 🎨 **Beautiful UI Components**
+Tailwind CSS-based component library with `class-variance-authority`:
+- **Button** - 5 variants (default, destructive, outline, ghost, link) + 3 sizes
+- **Input** - Text fields with error states and validation
+- **Card** - Container with header, content, and footer slots
+- **Badge** - 4 variants (default, secondary, destructive, outline)
+- **Alert** - 2 variants (default, destructive)
+- All fully typed with TypeScript and accessible (ARIA attributes)
+
+### 🧪 **End-to-End Testing**
+Playwright tests for critical user flows:
+- **Multi-browser testing** - Chromium, Firefox, and WebKit
+- **Complete auth flow** - Signup, login, logout, protected routes
+- **Test reports** - HTML reports with screenshots on failure
+- **CI/CD integration** - Runs automatically in GitHub Actions
+
+### 🐳 **Docker & Deployment Ready**
+Production deployment made easy:
+- **Multi-stage Dockerfiles** - Optimized for size (API: 200MB, Dashboard: 25MB with nginx)
+- **docker-compose.yml** - PostgreSQL 16, Redis 7, all 3 apps orchestrated
+- **GitHub Actions** - CI workflow (build, lint, test) + deployment workflow
+- **Deployment guides** - Vercel, Railway, Render, Docker Hub
+
+### 📦 **Nx Monorepo**
+Intelligent build system with caching:
+- **Task caching** - Never rebuild the same code twice
+- **Affected commands** - Test/build only what changed
+- **Dependency graph** - Visualize project relationships (`npx nx graph`)
+- **Code sharing** - Import shared libraries with `@projectname/libname`
+- **Task orchestration** - Run tasks in parallel or sequence
 
 ---
 
-## 🏗️ Project Structure (Generated)
+## 📋 Generated Stack
+
+| Category | Technology | Version | Purpose |
+|----------|-----------|---------|---------|
+| **Monorepo** | Nx | 21.3.0 | Task orchestration & caching |
+| **Website** | Next.js | 15.1.6 | Marketing site with App Router & RSC |
+| **Dashboard** | React + Vite | 18.3.1 + 6.0.7 | SPA with fast HMR |
+| **Backend** | NestJS | 11.0.0 | RESTful API server |
+| **Routing** | React Router | 7.1.1 | Client-side routing for Dashboard |
+| **UI Library** | Tailwind CSS | 3.4.18 | Utility-first styling |
+| **UI Variants** | CVA | 0.7.1 | Type-safe component variants |
+| **Auth** | JWT + bcrypt | 9.4.5 + 5.1.1 | Token-based auth |
+| **Validation** | class-validator | 0.14.1 | DTO validation in API |
+| **Testing** | Playwright | 1.48.0 | E2E browser testing |
+| **DevOps** | Docker + GH Actions | - | Containerization & CI/CD |
+| **Database** | PostgreSQL | 16 | Relational database (in docker-compose) |
+| **Cache** | Redis | 7 | In-memory cache (in docker-compose) |
+| **Language** | TypeScript | 5.8.3 | Strict mode everywhere |
+
+---
+
+## 📂 Project Structure (Generated)
 
 ```
 my-app/
 ├── apps/
-│   ├── website/          # Marketing site
-│   ├── dashboard/        # SaaS app
-│   ├── blog/            # Blog
-│   ├── docs/            # Documentation
-│   └── api/             # Backend API
+│   ├── website/                      # Next.js 15 marketing site
+│   │   ├── app/
+│   │   │   ├── page.tsx             # Landing page with hero & features
+│   │   │   ├── layout.tsx           # Root layout with Inter font
+│   │   │   ├── globals.css          # Tailwind directives
+│   │   │   └── pricing/
+│   │   │       └── page.tsx         # Pricing page
+│   │   ├── next.config.mjs          # Next.js configuration
+│   │   ├── tailwind.config.ts       # Tailwind configuration
+│   │   ├── tsconfig.json            # TypeScript configuration
+│   │   ├── project.json             # Nx targets (build, serve, lint)
+│   │   └── Dockerfile               # Production build (Next.js standalone)
+│   │
+│   ├── dashboard/                    # React 18 + Vite SPA
+│   │   ├── src/
+│   │   │   ├── pages/
+│   │   │   │   ├── Login.tsx        # Login page
+│   │   │   │   ├── Signup.tsx       # Signup page
+│   │   │   │   ├── Dashboard.tsx    # Protected dashboard
+│   │   │   │   ├── Profile.tsx      # Protected profile
+│   │   │   │   └── Settings.tsx     # Protected settings
+│   │   │   ├── App.tsx              # Routes & AuthProvider
+│   │   │   ├── main.tsx             # Entry point
+│   │   │   └── styles.css           # Global styles
+│   │   ├── index.html               # HTML template
+│   │   ├── vite.config.ts           # Vite configuration
+│   │   ├── tailwind.config.ts       # Tailwind configuration
+│   │   ├── project.json             # Nx targets
+│   │   ├── Dockerfile               # Multi-stage: build + nginx serve
+│   │   └── nginx.conf               # Nginx configuration
+│   │
+│   └── api/                          # NestJS 11 backend
+│       ├── src/
+│       │   ├── auth/
+│       │   │   ├── auth.controller.ts   # POST /api/auth/login, /register
+│       │   │   ├── auth.service.ts      # JWT & bcrypt logic
+│       │   │   ├── auth.module.ts       # Module definition
+│       │   │   ├── jwt.strategy.ts      # JWT strategy
+│       │   │   ├── jwt-auth.guard.ts    # Guard for protected routes
+│       │   │   └── dto/                 # Data transfer objects
+│       │   ├── app.module.ts        # Root module
+│       │   └── main.ts              # Bootstrap (port 3333)
+│       ├── test/
+│       │   └── app.e2e-spec.ts      # API tests
+│       ├── Dockerfile               # Multi-stage Node 22 Alpine
+│       ├── project.json             # Nx targets
+│       └── tsconfig.json            # TypeScript strict mode
+│
 ├── libs/
-│   ├── ui/              # Shared components (shadcn/ui)
-│   ├── auth/            # Auth logic
-│   ├── billing/         # Stripe integration
-│   └── shared/          # Utilities, types
+│   ├── ui/                           # Shared UI components library
+│   │   ├── src/
+│   │   │   ├── button/
+│   │   │   │   ├── Button.tsx       # <Button variant="..." size="..." />
+│   │   │   │   └── index.ts         # Export
+│   │   │   ├── input/
+│   │   │   │   ├── Input.tsx        # <Input error={...} />
+│   │   │   │   └── index.ts
+│   │   │   ├── card/
+│   │   │   │   ├── Card.tsx         # Card, CardHeader, CardContent, CardFooter
+│   │   │   │   └── index.ts
+│   │   │   ├── badge/
+│   │   │   │   ├── Badge.tsx        # <Badge variant="..." />
+│   │   │   │   └── index.ts
+│   │   │   ├── alert/
+│   │   │   │   ├── Alert.tsx        # <Alert variant="destructive" />
+│   │   │   │   └── index.ts
+│   │   │   ├── lib/
+│   │   │   │   └── utils.ts         # cn() utility (clsx + tailwind-merge)
+│   │   │   └── index.ts             # Export all components
+│   │   ├── tailwind.config.ts       # Shared Tailwind config
+│   │   ├── project.json             # Nx config
+│   │   └── tsconfig.json
+│   │
+│   ├── auth/                         # Authentication library
+│   │   ├── src/
+│   │   │   ├── context/
+│   │   │   │   └── AuthContext.tsx  # AuthProvider, useAuth, useUser hooks
+│   │   │   ├── components/
+│   │   │   │   └── ProtectedRoute.tsx   # Route guard with redirect
+│   │   │   └── index.ts             # Exports
+│   │   ├── project.json
+│   │   └── tsconfig.json
+│   │
+│   └── shared/                       # Shared utilities library
+│       ├── src/
+│       │   ├── api-client/
+│       │   │   └── index.ts         # Configured fetch with base URL
+│       │   ├── types/
+│       │   │   └── index.ts         # User, AuthResponse interfaces
+│       │   └── index.ts
+│       ├── project.json
+│       └── tsconfig.json
+│
 ├── e2e/
-│   ├── website-e2e/
-│   ├── dashboard-e2e/
-│   └── api-e2e/
-├── nx.json
-├── package.json
-└── docker-compose.yml
+│   ├── tests/
+│   │   └── auth-flow.spec.ts        # Complete user journey tests
+│   ├── playwright.config.ts         # Multi-browser configuration
+│   ├── project.json                 # Nx target for e2e
+│   ├── package.json
+│   └── README.md
+│
+├── .github/
+│   └── workflows/
+│       ├── ci.yml                   # Build, typecheck, lint, test, E2E, audit
+│       └── deploy.yml               # Deploy to Vercel, Docker Hub, Railway
+│
+├── docker-compose.yml               # PostgreSQL + Redis + all apps
+├── .dockerignore                     # Optimize Docker builds
+├── nx.json                          # Nx workspace configuration
+├── package.json                     # Root dependencies & scripts
+├── tsconfig.base.json               # Shared TypeScript configuration
+├── README.md                        # This file (comprehensive setup guide)
+├── ARCHITECTURE.md                  # System design & architecture
+└── DEPLOYMENT.md                    # Deployment guide for all platforms
 ```
 
 ---
 
-## 📅 8-Week Implementation Timeline
+## 📖 Examples
 
-### Week 1: CLI Foundation
-- Basic CLI with `init` command
-- User story parser (simple version)
-- Theme generator
-- Basic workspace generation
-
-### Week 2: Nx Workspace + Core Libraries
-- Full Nx workspace generation
-- @hatch/ui library (shadcn/ui components)
-- @hatch/auth library
-- @hatch/shared library
-
-### Week 3: Frontend Apps
-- Website app (landing page)
-- Dashboard app (login, profile, logout)
-- Routing and layouts
-
-### Week 4: Backend API
-- NestJS API
-- Prisma schema
-- Auth endpoints
-- User endpoints
-- Docker setup
-
-### Week 5: Billing + Extended Apps
-- @hatch/billing library
-- Stripe integration
-- Blog app
-- Docs app
-- Billing page in dashboard
-
-### Week 6: Testing
-- Playwright E2E tests
-- Test all critical user flows
-- CI/CD workflows
-- Test coverage >80%
-
-### Week 7: User Story Intelligence
-- Enhanced story parsing
-- Entity extraction
-- Schema generation from story
-- Custom page generation
-
-### Week 8: Polish + Release
-- Documentation
-- Error handling
-- Examples
-- npm publish
-
----
-
-## 🎨 User Story Processing
-
-### Input
+### E-Commerce SaaS
 ```bash
-hatch init my-app --story "A project management tool for remote teams to collaborate, track tasks, and share files"
+hatch init
+
+# → Project name: my-store
+# → Description: An online marketplace for handmade goods
+# → Story: "Customers can browse products, add to cart, checkout, 
+#          and sellers can manage inventory and track orders"
+# → Theme: warm
 ```
 
-### Output
-- **Domain detected**: Productivity
-- **Entities generated**: Project, Task, Team, File
-- **Pages generated**:
-  - `/dashboard/projects`
-  - `/dashboard/tasks`
-  - `/dashboard/team`
-  - `/dashboard/files`
-- **API endpoints**: CRUD for each entity
-- **Theme**: Professional blue/gray color scheme
-- **Tests**: User can create project, add task, invite team member
+**Generated features**:
+- Product browsing pages
+- Shopping cart UI  
+- Checkout flow (ready for Stripe integration)
+- Order management dashboard
+- Seller inventory management (future enhancement)
+
+### Project Management SaaS
+```bash
+hatch init
+
+# → Project name: teamflow
+# → Description: A project management tool for remote teams
+# → Story: "Teams can create projects, assign tasks, track progress, 
+#          comment on tasks, and share files"
+# → Theme: professional
+```
+
+**Generated features**:
+- Project list and detail pages
+- Task management UI
+- Collaboration features (comments, assignments)
+- Progress tracking dashboard
+- File upload components (future enhancement)
+
+### Analytics SaaS
+```bash
+hatch init
+
+# → Project name: datalyze
+# → Description: A business intelligence platform
+# → Story: "Users upload CSV data, create charts and dashboards, 
+#          and share reports with their team"
+# → Theme: modern
+```
+
+**Generated features**:
+- File upload interface
+- Data visualization components (charts)
+- Dashboard builder
+- Report sharing system
+- Team management
 
 ---
 
-## ✨ Key Differentiators
+## 🛠️ Development Workflow
 
-| Feature | Hatch | Other Tools |
-|---------|-------|-------------|
-| **Story-Driven** | ✅ Generate from natural language | ❌ Template-based only |
-| **Complete Stack** | ✅ Frontend + Backend + Tests | ⚠️ Usually partial |
-| **Production-Ready** | ✅ Auth + Billing + Deployment | ⚠️ Boilerplate only |
-| **Nx Monorepo** | ✅ Optimized task running | ❌ Separate repos |
-| **Testing** | ✅ E2E tests included | ❌ No tests |
-| **Modern Stack** | ✅ Latest React, Next.js, NestJS | ⚠️ Outdated |
+### Available Commands
 
----
+```bash
+# Development (start all apps concurrently)
+npm run dev                     # All apps (website, dashboard, API)
+npm run dev:api                 # API only (port 3333)
+npm run dev:dashboard           # Dashboard only (port 3000)
+npm run dev:website             # Website only (port 3001)
 
-## 🎯 Success Metrics
+# Testing
+npm run test                    # All unit tests (future)
+npm run test:e2e                # Run Playwright tests (headless)
+npm run test:e2e:ui             # Open Playwright UI mode
+npm run test:e2e:chromium       # Chromium only
+npm run test:e2e:firefox        # Firefox only
+npm run test:e2e:webkit         # WebKit only
+npm run test:e2e:report         # Open test report
 
-- ⚡ **Generation Speed**: < 2 minutes for complete project
-- ✅ **Test Coverage**: > 80% for generated code
-- 🏗️ **Build Success**: All apps build without errors
-- 🔒 **Type Safety**: 100% TypeScript strict mode
-- ♿ **Accessibility**: WCAG 2.1 AA compliance
-- 📦 **Bundle Size**: Optimized with code splitting
+# Building
+npm run build:all               # Build all apps for production
+npm run build:api               # Build API
+npm run build:dashboard         # Build Dashboard
+npm run build:website           # Build Website
 
----
+# Linting & Formatting
+npm run lint                    # Lint all projects
+npm run lint:fix                # Auto-fix lint issues
+npm run format                  # Format code with Prettier
+npm run typecheck               # TypeScript type checking
 
-## 🔮 Future Vision
+# Docker (full stack with database)
+docker-compose up               # Start all services
+docker-compose up -d            # Start in detached mode
+docker-compose down             # Stop all services
+docker-compose logs -f api      # View API logs
+docker-compose ps               # List running containers
 
-### v1.0 (MVP)
-- CLI generates basic SaaS with all surfaces
-- Story parser (keyword-based)
-- Auth + Billing working
-- E2E tests passing
+# Nx Commands (powerful!)
+npx nx graph                    # Visualize project dependencies
+npx nx affected:test            # Test only affected projects
+npx nx affected:build           # Build only affected projects
+npx nx affected:lint            # Lint only affected projects
+npx nx run-many --target=test   # Run target for all projects
+npx nx show project api         # Show API project details
+npx nx reset                    # Clear Nx cache
+```
 
-### v1.5 
-- Enhanced NLP for story parsing
-- Multiple template presets
-- Plugin system
-- GraphQL option
+### Adding Features
 
-### v2.0
-- AI-powered entity extraction
-- Mobile app generation (React Native)
-- Admin panel generation
-- Multi-tenancy support
-- Real-time features
+#### Add a new page to Dashboard
 
-### v3.0
-- Visual designer integration
-- No-code mode
-- Marketplace for templates
-- Team collaboration features
+```bash
+# 1. Create page component
+cat > apps/dashboard/src/pages/Team.tsx << 'EOF'
+import { useUser } from '@myapp/auth';
 
----
-
-## 🛠️ Development Commands (Generated Apps)
-
-```json
-{
-  "dev": "nx run-many --target=serve --all",
-  "dev:api": "nx serve api",
-  "dev:dashboard": "nx serve dashboard", 
-  "dev:website": "nx serve website",
-  "build": "nx run-many --target=build --all",
-  "test": "nx run-many --target=test --all",
-  "test:e2e": "nx run-many --target=e2e --all",
-  "lint": "nx run-many --target=lint --all",
-  "format": "prettier --write ."
+export function Team() {
+  const user = useUser();
+  
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">Team Management</h1>
+      <p>Manage your team members, {user?.name || 'User'}.</p>
+    </div>
+  );
 }
+EOF
+
+# 2. Add route in App.tsx
+# Add import: import { Team } from './pages/Team';
+# Add route: <Route path="/team" element={<ProtectedRoute><Team /></ProtectedRoute>} />
 ```
 
----
+#### Add a new API endpoint
 
-## 📖 User Stories Examples
-
-### E-commerce
 ```bash
-hatch init my-store --story "An online store where customers can browse products, add to cart, checkout with Stripe, and track orders"
-```
-**Generated**: Product catalog, shopping cart, checkout flow, order management
+# 1. Generate NestJS resource
+cd apps/api
+npx nest generate module projects
+npx nest generate controller projects
+npx nest generate service projects
 
-### Social Network
+# 2. Implement CRUD in projects.controller.ts
+# 3. Add to app.module.ts imports
+```
+
+#### Add a new shared component
+
 ```bash
-hatch init my-social --story "A social platform where users can post updates, follow friends, like posts, and send messages"
-```
-**Generated**: User profiles, feed, messaging system, notifications
+# 1. Create component directory
+mkdir -p libs/ui/src/tooltip
 
-### SaaS Tool
+# 2. Create component
+cat > libs/ui/src/tooltip/Tooltip.tsx << 'EOF'
+import React from 'react';
+
+export interface TooltipProps {
+  text: string;
+  children: React.ReactNode;
+}
+
+export function Tooltip({ text, children }: TooltipProps) {
+  return (
+    <div className="relative group">
+      {children}
+      <div className="absolute hidden group-hover:block bg-gray-900 text-white text-sm rounded py-1 px-2 bottom-full mb-2">
+        {text}
+      </div>
+    </div>
+  );
+}
+EOF
+
+# 3. Create index export
+echo "export { Tooltip, type TooltipProps } from './Tooltip';" > libs/ui/src/tooltip/index.ts
+
+# 4. Export from main index
+echo "export * from './tooltip';" >> libs/ui/src/index.ts
+
+# 5. Use anywhere
+# import { Tooltip } from '@myapp/ui';
+# <Tooltip text="Helpful hint"><Button>Hover me</Button></Tooltip>
+```
+
+---
+
+## 🧪 Testing
+
+### E2E Tests with Playwright
+
+Your generated project includes comprehensive E2E tests covering the complete user journey:
+
+```typescript
+// e2e/tests/auth-flow.spec.ts
+
+test('complete signup and login flow', async ({ page, context }) => {
+  const testUser = {
+    name: 'Test User',
+    email: `test${Date.now()}@example.com`,
+    password: 'SecurePass123!'
+  };
+
+  // 1. Navigate to signup page
+  await page.goto('http://localhost:3000/signup');
+  await expect(page).toHaveTitle(/Signup/);
+
+  // 2. Fill and submit signup form
+  await page.fill('[name="name"]', testUser.name);
+  await page.fill('[name="email"]', testUser.email);
+  await page.fill('[name="password"]', testUser.password);
+  await page.click('button[type="submit"]');
+
+  // 3. Verify redirect to dashboard
+  await expect(page).toHaveURL(/.*dashboard/);
+  await expect(page.locator('h1')).toContainText('Welcome');
+
+  // 4. Verify token persists across page refresh
+  await page.reload();
+  await expect(page).toHaveURL(/.*dashboard/);
+
+  // 5. Test logout
+  await page.click('text=Logout');
+  await expect(page).toHaveURL(/.*login/);
+
+  // 6. Test login with same credentials
+  await page.fill('[name="email"]', testUser.email);
+  await page.fill('[name="password"]', testUser.password);
+  await page.click('button[type="submit"]');
+  await expect(page).toHaveURL(/.*dashboard/);
+});
+
+test('protected routes redirect unauthenticated users', async ({ page }) => {
+  // Clear any existing auth
+  await context.clearCookies();
+  await page.goto('http://localhost:3000');
+  await page.evaluate(() => localStorage.clear());
+
+  // Try to access protected route
+  await page.goto('http://localhost:3000/dashboard/profile');
+  
+  // Should redirect to login
+  await expect(page).toHaveURL(/.*login/);
+});
+```
+
+**Running Tests**:
+
 ```bash
-hatch init my-tool --story "A data analytics tool where teams can upload CSV files, create visualizations, and share reports"
+# All browsers (headless)
+npm run test:e2e
+
+# Interactive UI mode (debug tests)
+npm run test:e2e:ui
+
+# Specific browser
+npm run test:e2e:chromium
+npm run test:e2e:firefox
+npm run test:e2e:webkit
+
+# Generate and view report
+npm run test:e2e:report
+
+# Update snapshots
+npm run test:e2e -- --update-snapshots
+
+# Run specific test file
+npx playwright test auth-flow
+
+# Run in headed mode (see browser)
+npx playwright test --headed
+
+# Debug mode with Playwright Inspector
+npx playwright test --debug
 ```
-**Generated**: File upload, data processing, chart components, sharing
+
+**Test Output**:
+- **Reports**: `e2e/playwright-report/index.html`
+- **Screenshots**: `e2e/test-results/` (on failure)
+- **Videos**: `e2e/test-results/` (in headed mode)
+- **Traces**: `e2e/test-results/` (for debugging)
 
 ---
 
-## 🔒 Security Features (Included)
+## 🚢 Deployment
 
-- 🔐 JWT authentication with refresh tokens
-- 🛡️ CSRF protection
-- 🚫 XSS prevention
-- 💉 SQL injection protection (via Prisma)
-- 🚦 Rate limiting
-- 🔒 HTTPS enforcement
-- 🎯 Input validation (Zod)
-- 🔑 Environment variable management
-- 📝 Security headers (Helmet)
-- 🔐 Password hashing (bcrypt)
+Your generated project is ready to deploy to multiple platforms:
+
+### Vercel (Recommended for Website & Dashboard)
+
+**Website (Next.js)**:
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy from website directory
+cd apps/website
+vercel --prod
+
+# Or connect GitHub repo for auto-deployment
+# https://vercel.com/new
+```
+
+**Dashboard (React SPA)**:
+```bash
+cd apps/dashboard
+npm run build
+vercel --prod
+```
+
+**Environment Variables** (set in Vercel dashboard):
+```env
+VITE_API_URL=https://your-api.railway.app/api
+```
+
+### Railway (Recommended for API)
+
+```bash
+# Install Railway CLI
+npm i -g @railway/cli
+
+# Login
+railway login
+
+# Initialize and deploy API
+cd apps/api
+railway init
+railway up
+
+# Set environment variables
+railway variables set JWT_SECRET=your-secret-key-change-this
+railway variables set DATABASE_URL=postgresql://...
+```
+
+### Render (Alternative for API)
+
+1. Create new **Web Service** on [Render](https://render.com)
+2. Connect your Git repository
+3. Configure:
+   - **Build Command**: `npm install && npm run build:api`
+   - **Start Command**: `node dist/apps/api/main.js`
+   - **Environment Variables**: `JWT_SECRET`, `DATABASE_URL`
+
+### Docker Compose (Self-Hosted)
+
+```bash
+# Build all images
+docker-compose build
+
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Scale services
+docker-compose up -d --scale api=3
+```
+
+**Services** (all running locally):
+- **Website**: http://localhost:3001
+- **Dashboard**: http://localhost:3000
+- **API**: http://localhost:3333
+- **PostgreSQL**: localhost:5432
+- **Redis**: localhost:6379
+
+### Docker Hub (Push Images)
+
+```bash
+# Login to Docker Hub
+docker login
+
+# Build and tag
+docker build -t yourusername/myapp-api:latest -f apps/api/Dockerfile .
+docker build -t yourusername/myapp-dashboard:latest -f apps/dashboard/Dockerfile .
+docker build -t yourusername/myapp-website:latest -f apps/website/Dockerfile .
+
+# Push
+docker push yourusername/myapp-api:latest
+docker push yourusername/myapp-dashboard:latest
+docker push yourusername/myapp-website:latest
+```
+
+### GitHub Actions (Automated CI/CD)
+
+Your project includes two workflows that run automatically:
+
+**`.github/workflows/ci.yml`** (Pull Requests):
+- Install dependencies
+- TypeScript typecheck all projects
+- Lint all projects
+- Build all apps
+- Run E2E tests (Chromium only in CI)
+- npm audit security check
+
+**`.github/workflows/deploy.yml`** (Push to `main`):
+- Build Docker images
+- Push to Docker Hub
+- Deploy Website to Vercel
+- Deploy API to Railway
+
+**Setup**:
+1. Add GitHub repository secrets:
+   - `VERCEL_TOKEN`
+   - `VERCEL_ORG_ID`
+   - `VERCEL_PROJECT_ID`
+   - `RAILWAY_TOKEN`
+   - `DOCKER_USERNAME`
+   - `DOCKER_PASSWORD`
+
+2. Push to GitHub:
+```bash
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/yourusername/my-app.git
+git push -u origin main
+```
+
+3. Workflows run automatically!
+
+For comprehensive deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md) in your generated project.
 
 ---
 
-## 📚 Documentation Included
+## 🏗️ Architecture
 
-Each generated project includes:
-- ✅ README with setup instructions
-- ✅ Architecture documentation
-- ✅ API documentation (Swagger)
-- ✅ Component documentation (Storybook optional)
-- ✅ Deployment guide
-- ✅ Environment variable reference
-- ✅ Testing guide
+### System Design Diagram
+
+```
+┌──────────┐      ┌──────────┐      ┌──────────┐
+│ Website  │      │Dashboard │      │  Mobile  │
+│(Next.js) │      │ (React)  │      │ (Future) │
+│Port 3001 │      │Port 3000 │      │          │
+└────┬─────┘      └────┬─────┘      └────┬─────┘
+     │                 │                  │
+     │                 │                  │
+     └─────────────────┼──────────────────┘
+                       │
+                 HTTP/REST API
+                       │
+                       ▼
+              ┌────────────────┐
+              │   API Server   │
+              │   (NestJS)     │
+              │   Port 3333    │
+              └────────────────┘
+                       │
+       ┌───────────────┼───────────────┐
+       │               │               │
+       ▼               ▼               ▼
+┌─────────────┐  ┌──────────┐  ┌──────────┐
+│ PostgreSQL  │  │  Redis   │  │   S3     │
+│  Database   │  │  Cache   │  │ Storage  │
+│  Port 5432  │  │Port 6379 │  │ (Future) │
+└─────────────┘  └──────────┘  └──────────┘
+```
+
+### Authentication Flow
+
+```
+1. User visits /dashboard
+2. No auth token → <ProtectedRoute> redirects to /login
+3. User submits login form (email + password)
+4. Dashboard → POST /api/auth/login { email, password }
+5. API validates credentials with bcrypt.compare()
+6. API generates JWT token (expiresIn: '1h')
+7. API returns { token, user: { id, email, name } }
+8. Dashboard stores token in localStorage.setItem('token', ...)
+9. Dashboard sets user in AuthContext
+10. Dashboard redirects to /dashboard
+11. Protected routes check token before rendering
+12. Dashboard sends token in Authorization header for API calls
+```
+
+### Data Flow
+
+```
+Component → useAuth() hook → AuthContext → localStorage
+                                    ↓
+                            API calls with token
+                                    ↓
+                        API validates with JwtStrategy
+                                    ↓
+                          Returns protected data
+```
+
+### Technology Choices
+
+**Why Nx?**
+- Monorepo management without the complexity
+- Intelligent caching (rebuilds are instant)
+- Code sharing between apps (`@projectname/lib`)
+- Affected command (only test what changed)
+- Task orchestration (parallel builds)
+
+**Why Next.js for Website?**
+- SEO optimization (Server-side rendering)
+- App Router with React Server Components
+- Automatic code splitting
+- Built-in image optimization
+- Fast page loads
+
+**Why Vite for Dashboard?**
+- Extremely fast HMR (instant updates)
+- Optimized production builds
+- Simple configuration
+- Modern ES modules
+
+**Why NestJS for API?**
+- TypeScript native
+- Modular architecture (easy to scale)
+- Built-in dependency injection
+- Excellent documentation
+- Easy testing
+
+**Why Playwright?**
+- Multi-browser testing (Chromium, Firefox, WebKit)
+- Auto-wait (no flaky tests)
+- Great debugging tools (UI mode, traces)
+- Fast parallel execution
+
+For more details, see [ARCHITECTURE.md](./ARCHITECTURE.md) in your generated project.
 
 ---
 
-## 🚢 Deployment Support
+## 🔒 Security Features
 
-### Supported Platforms
-- **Vercel** - Next.js apps (website, blog, docs)
-- **Railway** - API + Database
-- **Render** - API + Database
-- **Fly.io** - Full-stack deployment
-- **Docker** - Self-hosted anywhere
+Your generated application includes production-grade security:
 
-### Generated Configs
-- `vercel.json` for Vercel deployments
-- `Dockerfile` for containerization
-- `docker-compose.yml` for local development
-- GitHub Actions workflows for CI/CD
+### Authentication
+- ✅ **JWT Tokens** - Signed with secret key (set `JWT_SECRET` env var)
+- ✅ **Password Hashing** - bcrypt with salt rounds (10)
+- ✅ **Token Expiration** - 1 hour (configurable in `auth.module.ts`)
+- ✅ **Secure Storage** - localStorage (upgrade to httpOnly cookies in production)
+
+### API Security
+- ✅ **Input Validation** - class-validator DTOs on all endpoints
+- ✅ **CORS Configuration** - Specific origins only (configure in `main.ts`)
+- ✅ **Rate Limiting** - Ready to add with `@nestjs/throttler`
+- ✅ **Helmet** - Security headers (uncomment in `main.ts`)
+
+### Frontend Security
+- ✅ **XSS Protection** - React escapes output by default
+- ✅ **Type Safety** - TypeScript strict mode
+- ✅ **Environment Variables** - Never commit secrets
+- ✅ **Dependency Audits** - `npm audit` in CI/CD
+
+### Production Checklist
+- [ ] Change `JWT_SECRET` to a strong random key
+- [ ] Enable HTTPS (required in production)
+- [ ] Switch to httpOnly cookies for tokens
+- [ ] Add rate limiting to API endpoints
+- [ ] Set up Content Security Policy (CSP)
+- [ ] Configure CORS allowlist properly
+- [ ] Add refresh tokens for longer sessions
+- [ ] Implement password strength requirements
+- [ ] Add CSRF protection for state-changing operations
+- [ ] Set up database backups
 
 ---
 
-## 💡 Development Philosophy
+## 📚 Documentation
 
-1. **Convention over Configuration** - Sensible defaults, less setup
-2. **Type Safety First** - TypeScript everywhere
-3. **Testing Included** - E2E tests from day one
-4. **Production Ready** - Not just a boilerplate
-5. **Modern Stack** - Latest stable versions
-6. **Developer Experience** - Fast, intuitive, well-documented
+Each generated project includes comprehensive documentation:
+
+### README.md
+- Project overview with your user story
+- Quick start guide (install, run, test)
+- Development mode instructions (Nx + Docker)
+- Project structure tree with explanations
+- Testing instructions
+- Available npm scripts
+- Links to other docs
+
+### ARCHITECTURE.md
+- System design diagrams
+- Authentication flow
+- Data flow diagrams
+- Technology stack rationale
+- Security considerations
+- Database design guidelines
+- Caching strategy
+- Deployment architecture
+- Scaling considerations
+- Future enhancements roadmap
+
+### DEPLOYMENT.md (250+ lines)
+- **Docker Deployment** - Full docker-compose setup
+- **Vercel** - Deploy Website and Dashboard
+- **Railway** - Deploy API with PostgreSQL
+- **Render** - Alternative API deployment
+- **GitHub Actions** - Automated CI/CD setup
+- **Environment Variables** - Complete reference
+- **Domain Setup** - Custom domain instructions
+- **SSL/HTTPS** - Certificate configuration
+- **Monitoring** - Logging and error tracking
+- **Troubleshooting** - Common deployment issues
 
 ---
 
-## 🎓 Learning Resources
+## 🎯 Current Status
 
-After generating a project, developers will learn:
-- Nx monorepo best practices
-- React + Next.js modern patterns
-- NestJS backend architecture
-- Prisma ORM usage
-- Playwright E2E testing
-- Stripe integration
-- shadcn/ui component library
-- Docker containerization
+### ✅ Completed (v0.7.0)
+
+- **Phase 1** - CLI Foundation (Commander.js, Inquirer, EJS templates)
+- **Phase 2** - Nx Workspace Generation
+- **Phase 3** - Shared Libraries (`@app/ui`, `@app/auth`, `@app/shared`)
+- **Phase 4** - Dashboard App (React + Vite, full auth)
+- **Phase 4** - API App (NestJS, JWT, bcrypt)
+- **Phase 5** - Website App (Next.js 15, App Router, pricing page)
+- **Phase 6** - E2E Testing (Playwright multi-browser tests)
+- **Phase 7** - DevOps (Docker, docker-compose, GitHub Actions CI/CD)
+- **Phase 8** - Documentation (README, ARCHITECTURE, DEPLOYMENT guides)
+
+### 🚧 In Progress (v0.8.0)
+
+- [ ] CLI enhancements (`hatch dev`, `hatch build`, `hatch deploy` commands)
+- [ ] Improved error handling and validation
+- [ ] Enhanced user story parsing
+- [ ] Better progress indicators
+- [ ] CLI documentation updates
+
+### 🔮 Planned (v1.0.0+)
+
+- [ ] Database integration (Prisma ORM + PostgreSQL)
+- [ ] User profile management UI
+- [ ] Password reset flow
+- [ ] Email verification
+- [ ] Billing integration (Stripe)
+- [ ] Admin dashboard generator
+- [ ] Blog app generator (Next.js + MDX)
+- [ ] Docs app generator (Nextra)
+- [ ] Mobile app generator (React Native)
+- [ ] GraphQL API option
+- [ ] Real-time features (WebSockets)
+- [ ] File upload with S3
+- [ ] Advanced entity extraction from stories
+- [ ] Custom page generation based on entities
+- [ ] Multiple theme presets
+- [ ] Plugin system
 
 ---
 
 ## 📊 Comparison with Alternatives
 
-| Tool | Hatch | Create Next App | T3 Stack | RedwoodJS |
-|------|-------|-----------------|----------|-----------|
-| Story-driven | ✅ | ❌ | ❌ | ❌ |
-| Full-stack | ✅ | ❌ | ✅ | ✅ |
-| Monorepo | ✅ (Nx) | ❌ | ❌ | ❌ |
-| Auth | ✅ | ❌ | ✅ | ✅ |
-| Billing | ✅ | ❌ | ❌ | ❌ |
-| E2E Tests | ✅ | ❌ | ❌ | ⚠️ |
-| Multi-app | ✅ | ❌ | ❌ | ⚠️ |
-| Blog/Docs | ✅ | ❌ | ❌ | ❌ |
+| Feature | Hatch | Create Next App | T3 Stack | Create React App | RedwoodJS |
+|---------|-------|-----------------|----------|------------------|-----------|
+| **Story-Driven** | ✅ Natural language | ❌ | ❌ | ❌ | ❌ |
+| **Full-Stack** | ✅ Frontend + Backend | ❌ Frontend only | ✅ | ❌ Frontend only | ✅ |
+| **Monorepo** | ✅ Nx | ❌ | ❌ | ❌ | ❌ |
+| **Multiple Apps** | ✅ 3 apps | ❌ 1 app | ❌ 1 app | ❌ 1 app | ⚠️ Cells |
+| **Auth Built-In** | ✅ JWT + Protected Routes | ❌ | ✅ NextAuth | ❌ | ✅ |
+| **E2E Tests** | ✅ Playwright | ❌ | ❌ | ❌ | ⚠️ |
+| **Docker** | ✅ + docker-compose | ❌ | ❌ | ❌ | ❌ |
+| **CI/CD** | ✅ GitHub Actions | ❌ | ❌ | ❌ | ❌ |
+| **UI Components** | ✅ 5 components | ❌ | ❌ | ❌ | ❌ |
+| **Documentation** | ✅ 3 guides | ⚠️ Basic | ⚠️ Basic | ⚠️ Basic | ✅ |
+| **TypeScript** | ✅ Strict mode | ⚠️ Optional | ✅ | ⚠️ Optional | ✅ |
+| **Modern Stack** | ✅ 2025 | ✅ | ✅ | ❌ Outdated | ✅ |
 
 ---
 
-## 🤝 Contributing (Future)
+## 🤝 Contributing
 
-Once open-sourced:
-- Template contributions
-- New generators
-- Improved story parsing
-- Additional integrations
-- Documentation improvements
-- Bug fixes
+Hatch is currently in active development. Contributions welcome!
+
+### Development Setup
+
+```bash
+# Clone the Hatch CLI repository
+git clone https://github.com/yourusername/hatch.git
+cd hatch
+
+# Install dependencies
+npm install
+
+# Link CLI globally for testing
+npm link
+
+# Test the CLI
+hatch init test-project
+
+# Make changes to templates in templates/ directory
+
+# Build
+npm run build
+
+# Unlink when done
+npm unlink -g hatch-cli
+```
+
+### Areas to Contribute
+
+- 🎨 New UI components
+- 📦 Additional libraries (billing, email, etc.)
+- 🧪 More test coverage
+- 📖 Documentation improvements
+- 🐛 Bug fixes
+- ✨ Feature enhancements
+- 🎨 Theme presets
+- 🌍 Internationalization (i18n)
 
 ---
 
 ## 📝 License
 
-MIT (recommended for maximum adoption)
+MIT © 2025
+
+See [LICENSE](LICENSE) for details.
 
 ---
 
-## 🎯 Next Immediate Action
+## 🙏 Acknowledgments
 
-**Start with Week 1, Day 1:**
+Built with amazing open-source tools:
 
-```bash
-cd /Users/dbirkett/Projects/hatch
-
-# Initialize the CLI project
-pnpm init
-
-# Install dependencies
-pnpm add commander inquirer chalk ora execa fs-extra ejs zod
-
-# Create directory structure
-mkdir -p src/{commands,generators,parsers,utils}
-
-# Start coding! (See GETTING_STARTED.md)
-```
+- [Nx](https://nx.dev) - Monorepo orchestration
+- [Next.js](https://nextjs.org) - React framework
+- [NestJS](https://nestjs.com) - Node.js framework
+- [React](https://react.dev) - UI library
+- [Vite](https://vitejs.dev) - Build tool
+- [Tailwind CSS](https://tailwindcss.com) - CSS framework
+- [Playwright](https://playwright.dev) - Browser testing
+- [TypeScript](https://www.typescriptlang.org) - Type safety
 
 ---
 
-## 📞 Support & Community (Future)
+## 📞 Support
 
-- 📖 Documentation site
-- 💬 Discord community
-- 🐛 GitHub issues
-- 📺 Video tutorials
-- 📰 Blog posts
-- 🐦 Twitter updates
+- 📖 [Documentation](https://github.com/yourusername/hatch/wiki)
+- 🐛 [Issue Tracker](https://github.com/yourusername/hatch/issues)
+- 💬 [Discussions](https://github.com/yourusername/hatch/discussions)
+- 📧 Email: support@hatch.dev (coming soon)
 
 ---
 
-**The plan is complete and ready for execution!** 🚀
+<div align="center">
 
-**Total effort estimate**: 8 weeks for v1.0 MVP
-**Total tasks**: 200+ tracked in CHECKLIST.md
-**Documentation**: 5 comprehensive guides
-**Code examples**: Included in GETTING_STARTED.md
+**Built with ❤️ for developers who ship fast**
 
-**Ready to build the future of SaaS bootstrapping!** ✨
+[Get Started](#-quick-start) • [View Examples](#-examples) • [Read Docs](#-documentation)
+
+</div>

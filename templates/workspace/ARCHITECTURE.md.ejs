@@ -1,0 +1,408 @@
+# <%= projectName %> Architecture
+
+This document describes the architecture and design decisions for your SaaS application.
+
+## Overview
+
+<%= projectName %> is a full-stack SaaS application built with a modern tech stack, organized as a monorepo using Nx. The architecture follows a clean separation of concerns with three main applications and shared libraries.
+
+## System Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         Users/Clients                        │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                ┌─────────────┼─────────────┐
+                │             │             │
+                ▼             ▼             ▼
+┌───────────────────┐  ┌──────────────┐  ┌─────────────┐
+│    Website        │  │  Dashboard   │  │   Mobile    │
+│   (Next.js)       │  │  (React)     │  │  (Future)   │
+│   Port: 3001      │  │  Port: 3000  │  │             │
+└───────────────────┘  └──────────────┘  └─────────────┘
+         │                     │                 │
+         │                     │                 │
+         └─────────────────────┼─────────────────┘
+                              │
+                       HTTP/REST API
+                              │
+                              ▼
+                   ┌──────────────────┐
+                   │    API Server    │
+                   │   (NestJS)       │
+                   │   Port: 3333     │
+                   └──────────────────┘
+                              │
+                ┌─────────────┼─────────────┐
+                │             │             │
+                ▼             ▼             ▼
+        ┌──────────────┐  ┌────────┐  ┌────────┐
+        │  PostgreSQL  │  │ Redis  │  │ Files  │
+        │   Database   │  │ Cache  │  │ (S3)   │
+        └──────────────┘  └────────┘  └────────┘
+```
+
+## Applications
+
+### 1. Website (Next.js 15)
+
+**Purpose**: Public-facing marketing site
+
+**Technology Stack**:
+- Next.js 15 with App Router
+- React Server Components
+- Tailwind CSS for styling
+- Inter font for typography
+
+**Key Features**:
+- Server-side rendering (SSR)
+- Static page generation where applicable
+- SEO optimized
+- Fast page loads with automatic code splitting
+
+**Pages**:
+- `/` - Landing page with hero and features
+- `/pricing` - Pricing plans and FAQ
+- `/about` - About page (optional)
+
+**Port**: 3001
+
+**Deployment**: Vercel, Docker
+
+### 2. Dashboard (React 18 + Vite)
+
+**Purpose**: Authenticated user interface
+
+**Technology Stack**:
+- React 18 with hooks
+- Vite for fast development and builds
+- React Router 7 for client-side routing
+- Tailwind CSS for styling
+
+**Key Features**:
+- Single Page Application (SPA)
+- Protected routes with authentication
+- JWT-based authentication
+- Fast hot module replacement (HMR)
+
+**Pages**:
+- `/login` - Login page
+- `/signup` - Registration page
+- `/dashboard` - Main dashboard (protected)
+- `/dashboard/profile` - User profile (protected)
+- `/dashboard/settings` - User settings (protected)
+
+**Port**: 3000
+
+**Deployment**: Vercel, nginx container
+
+### 3. API (NestJS 11)
+
+**Purpose**: Backend API server
+
+**Technology Stack**:
+- NestJS 11 framework
+- TypeScript with strict mode
+- JWT for authentication
+- bcrypt for password hashing
+
+**Key Features**:
+- RESTful API design
+- Modular architecture
+- Dependency injection
+- Request validation
+- CORS configuration
+- Global error handling
+
+**Endpoints**:
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user (protected)
+
+**Port**: 3333
+
+**Deployment**: Railway, Render, Docker
+
+## Shared Libraries
+
+### @<%= projectName %>/ui
+
+Reusable UI components built with React and Tailwind CSS.
+
+**Components**:
+- `Button` - Button with variants (default, destructive, outline, ghost, link)
+- `Input` - Text input with error states
+- `Card` - Card container with header, content, footer
+- `Badge` - Badge with variants (default, secondary, destructive, outline)
+- `Alert` - Alert with variants (default, destructive)
+
+**Utilities**:
+- `cn()` - Class name utility using clsx and tailwind-merge
+
+### @<%= projectName %>/auth
+
+Authentication logic and React context.
+
+**Exports**:
+- `AuthProvider` - React context provider
+- `useAuth()` - Hook for authentication methods
+- `useUser()` - Hook for current user data
+- `ProtectedRoute` - Route guard component
+
+**Features**:
+- JWT token management
+- localStorage persistence
+- Automatic token refresh (ready to implement)
+- Logout functionality
+
+### @<%= projectName %>/shared
+
+Shared utilities, types, and constants.
+
+**Exports**:
+- `apiClient` - Configured fetch wrapper
+- TypeScript interfaces and types
+- Validation schemas (Zod)
+- Utility functions
+- Constants
+
+## Data Flow
+
+### Authentication Flow
+
+```
+1. User navigates to dashboard → Redirected to /login (if not authenticated)
+2. User submits login form
+3. Dashboard → POST /api/auth/login with { email, password }
+4. API validates credentials
+5. API returns { token, user }
+6. Dashboard stores token in localStorage
+7. Dashboard sets user in AuthContext
+8. User redirected to /dashboard
+9. Protected routes verify token before rendering
+```
+
+### Protected Route Flow
+
+```
+1. User navigates to protected route (e.g., /dashboard/profile)
+2. ProtectedRoute checks for auth token
+3. If no token → Redirect to /login
+4. If token exists → Render requested component
+5. Component can access user via useUser() hook
+```
+
+## Security Considerations
+
+### Authentication
+
+- **Password Hashing**: bcrypt with salt rounds
+- **JWT Tokens**: Signed with secret key
+- **Token Storage**: localStorage (consider httpOnly cookies for production)
+- **CORS**: Configured to allow specific origins only
+
+### API Security
+
+- **Input Validation**: All requests validated using class-validator
+- **Rate Limiting**: Ready to implement with @nestjs/throttler
+- **HTTPS**: Required in production
+- **Environment Variables**: Secrets stored in .env, never committed
+
+### Frontend Security
+
+- **XSS Protection**: React escapes output by default
+- **CSRF**: Consider implementing for state-changing operations
+- **Content Security Policy**: Ready to add via headers
+- **Dependency Audits**: Run `npm audit` regularly
+
+## Database Design
+
+Currently using in-memory storage for users (development only).
+
+**Production Considerations**:
+- Add PostgreSQL with Prisma ORM
+- Implement proper user table
+- Add indexes for performance
+- Set up migrations
+- Configure connection pooling
+
+**Recommended Schema**:
+
+```prisma
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+## Caching Strategy
+
+Redis is included in docker-compose for caching.
+
+**Use Cases**:
+- Session storage
+- API response caching
+- Rate limiting counters
+- Temporary data storage
+
+## Testing Strategy
+
+### E2E Tests (Playwright)
+
+Tests complete user journeys across all apps.
+
+**Test Cases**:
+- Signup flow
+- Login flow
+- Protected route access
+- Logout flow
+- Form validation
+- Error handling
+
+**Browsers**: Chromium, Firefox, WebKit
+
+### Unit Tests (Future)
+
+- Component tests with React Testing Library
+- API endpoint tests with Jest
+- Service layer tests
+- Utility function tests
+
+## Deployment Architecture
+
+### Docker Deployment
+
+```
+docker-compose.yml orchestrates:
+├── PostgreSQL (database)
+├── Redis (cache)
+├── API (NestJS container)
+├── Dashboard (nginx serving static files)
+└── Website (Next.js container)
+```
+
+### Production Deployment
+
+**Website**: Vercel (Next.js native platform)
+**Dashboard**: Vercel or nginx container
+**API**: Railway, Render, or Kubernetes
+
+**CDN**: Cloudflare or Vercel Edge Network
+**Database**: Managed PostgreSQL (Railway, Render, AWS RDS)
+**Cache**: Managed Redis (Upstash, Railway, AWS ElastiCache)
+
+## Scaling Considerations
+
+### Horizontal Scaling
+
+- API can run multiple instances behind load balancer
+- Database requires read replicas for read-heavy workloads
+- Redis can use Redis Cluster for high availability
+
+### Vertical Scaling
+
+- Increase container resources as needed
+- Database connection pooling
+- Implement query optimization
+- Add database indexes
+
+### Performance Optimization
+
+- Cache frequently accessed data in Redis
+- Use CDN for static assets
+- Implement lazy loading in React
+- Optimize database queries
+- Enable gzip compression
+
+## Monitoring & Observability
+
+### Recommended Tools
+
+- **APM**: Sentry, DataDog, New Relic
+- **Logs**: LogRocket, Papertrail, Loggly
+- **Uptime**: UptimeRobot, Pingdom
+- **Analytics**: Google Analytics, Plausible
+
+### Metrics to Track
+
+- API response times
+- Error rates
+- User activity
+- Database query performance
+- Cache hit rates
+
+## Future Enhancements
+
+### Planned Features
+
+- [ ] Email verification
+- [ ] Password reset
+- [ ] User profiles with avatars
+- [ ] Admin dashboard
+- [ ] API versioning
+- [ ] GraphQL API
+- [ ] WebSocket support
+- [ ] File uploads
+- [ ] Search functionality
+- [ ] Multi-factor authentication
+
+### Technical Improvements
+
+- [ ] Replace localStorage with httpOnly cookies
+- [ ] Implement refresh tokens
+- [ ] Add rate limiting
+- [ ] Set up monitoring
+- [ ] Implement database migrations
+- [ ] Add API documentation (Swagger)
+- [ ] Set up error tracking
+- [ ] Implement logging
+- [ ] Add database backups
+- [ ] Set up CI/CD pipelines
+
+## Technology Choices
+
+### Why Nx?
+
+- Monorepo management
+- Code sharing between apps
+- Integrated caching
+- Task orchestration
+- Affected command detection
+
+### Why Next.js for Website?
+
+- SEO optimization
+- Server-side rendering
+- Excellent developer experience
+- Automatic code splitting
+- Built-in image optimization
+
+### Why Vite for Dashboard?
+
+- Extremely fast HMR
+- Optimized production builds
+- Simple configuration
+- Modern tooling
+
+### Why NestJS for API?
+
+- TypeScript native
+- Modular architecture
+- Excellent documentation
+- Built-in dependency injection
+- Easy testing
+
+---
+
+<div align="center">
+
+**For deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)**
+
+**For development setup, see [README.md](./README.md)**
+
+</div>
