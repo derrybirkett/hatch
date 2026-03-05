@@ -7,6 +7,7 @@ export interface AppConfig {
   projectPath: string;
   appName: string;
   appType: 'dashboard' | 'website' | 'api';
+  description?: string;
 }
 
 /**
@@ -24,6 +25,7 @@ export async function generateApp(config: AppConfig) {
     projectName: config.projectName,
     appName: config.appName,
     appType: config.appType,
+    description: config.description || 'A SaaS application',
   };
   
   // Generate project.json

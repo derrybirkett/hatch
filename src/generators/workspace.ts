@@ -91,6 +91,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       projectPath,
       appName: 'website',
       appType: 'website',
+      description: config.description,
     });
     
     await generateApp({
@@ -98,6 +99,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       projectPath,
       appName: 'dashboard',
       appType: 'dashboard',
+      description: config.description,
     });
     
     await generateApp({
@@ -105,6 +107,7 @@ export async function generateWorkspace(config: WorkspaceConfig) {
       projectPath,
       appName: 'api',
       appType: 'api',
+      description: config.description,
     });
     
     appSpinner.succeed('Applications generated (website, dashboard, api)');
