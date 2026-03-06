@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import ejs from 'ejs';
+import { renderTemplate } from '../utils/template';
 
 export interface LibraryConfig {
   projectName: string;
@@ -105,17 +106,4 @@ async function copyLibrarySource(templatesDir: string, libPath: string, libraryT
   }
 }
 
-/**
- * Render an EJS template and write to file
- */
-async function renderTemplate(
-  templatePath: string,
-  outputPath: string,
-  data: object
-) {
-  if (await fs.pathExists(templatePath)) {
-    const template = await fs.readFile(templatePath, 'utf-8');
-    const rendered = ejs.render(template, data);
-    await fs.writeFile(outputPath, rendered);
-  }
-}
+
