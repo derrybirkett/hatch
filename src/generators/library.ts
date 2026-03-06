@@ -49,6 +49,13 @@ export async function generateLibrary(config: LibraryConfig) {
     templateData
   );
   
+  // Generate tsconfig.spec.json
+  await renderTemplate(
+    path.join(templatesDir, 'tsconfig.spec.json.ejs'),
+    path.join(libPath, 'tsconfig.spec.json'),
+    templateData
+  );
+  
   // Generate package.json
   await renderTemplate(
     path.join(templatesDir, 'package.json.ejs'),

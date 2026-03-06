@@ -19,6 +19,10 @@ export default defineConfig({
 
   plugins: [react(), nxViteTsPaths()],
 
+  define: {
+    'process.env': {},
+  },
+
   build: {
     outDir: '../../dist/apps/dashboard',
     emptyOutDir: true,
