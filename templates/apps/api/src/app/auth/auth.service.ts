@@ -36,7 +36,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
       },
-      ...tokens,
+      tokens,
     };
   }
 
@@ -62,7 +62,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
       },
-      ...tokens,
+      tokens,
     };
   }
 
