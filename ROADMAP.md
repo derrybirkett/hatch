@@ -3,6 +3,7 @@
 ## Quick Start Guide
 
 ### Week 1: Foundation
+
 **Goal**: Working CLI that generates basic Nx workspace
 
 ```bash
@@ -14,6 +15,7 @@ pnpm dev
 ```
 
 **Deliverables**:
+
 1. CLI package structure
 2. `init` command with prompts
 3. Nx workspace generator
@@ -23,9 +25,11 @@ pnpm dev
 ---
 
 ### Week 2: Core Libraries
+
 **Goal**: Shared libraries with shadcn/ui components
 
 **Deliverables**:
+
 1. `@hatch/ui` library with 10 components
 2. `@hatch/auth` context and hooks
 3. `@hatch/shared` utilities
@@ -35,9 +39,11 @@ pnpm dev
 ---
 
 ### Week 3: Frontend Surfaces
+
 **Goal**: Website and Dashboard apps up and running
 
 **Deliverables**:
+
 1. Website app (Next.js) - landing page
 2. Dashboard app (React) - login, profile, logout
 3. Auth flow connecting both apps
@@ -47,9 +53,11 @@ pnpm dev
 ---
 
 ### Week 4: Backend & Auth
+
 **Goal**: API with working authentication
 
 **Deliverables**:
+
 1. NestJS API app
 2. Prisma schema with User model
 3. Auth endpoints (login, register, logout)
@@ -60,9 +68,11 @@ pnpm dev
 ---
 
 ### Week 5: Billing & Extended Features
+
 **Goal**: Stripe integration and additional pages
 
 **Deliverables**:
+
 1. `@hatch/billing` library
 2. Billing page in dashboard
 3. Stripe API integration
@@ -74,9 +84,11 @@ pnpm dev
 ---
 
 ### Week 6: Testing Infrastructure
+
 **Goal**: Comprehensive Playwright tests
 
 **Deliverables**:
+
 1. Playwright configuration
 2. E2E tests for website
 3. E2E tests for dashboard (login, profile, billing, logout)
@@ -87,9 +99,11 @@ pnpm dev
 ---
 
 ### Week 7: User Story Intelligence
+
 **Goal**: Smart generation from user stories
 
 **Deliverables**:
+
 1. Story parser
 2. Entity extraction
 3. Schema generation from story
@@ -100,9 +114,11 @@ pnpm dev
 ---
 
 ### Week 8: Polish & Release
+
 **Goal**: Production-ready v1.0
 
 **Deliverables**:
+
 1. Complete documentation
 2. Example projects
 3. Error handling
@@ -116,6 +132,7 @@ pnpm dev
 ## Priority Order for MVP
 
 ### Must Have (P0)
+
 1. ✅ CLI with init command
 2. ✅ Nx workspace generation
 3. ✅ Website app (landing page)
@@ -127,6 +144,7 @@ pnpm dev
 9. ✅ Docker setup
 
 ### Should Have (P1)
+
 - Billing integration
 - Blog app
 - Docs app
@@ -136,6 +154,7 @@ pnpm dev
 - CI/CD workflows
 
 ### Nice to Have (P2)
+
 - Advanced story parsing
 - Custom generators
 - Plugin system
@@ -147,16 +166,19 @@ pnpm dev
 ## Development Phases
 
 ### Phase 1: Proof of Concept (2 weeks)
+
 - CLI generates Nx workspace
 - One app runs (dashboard with login)
 - One test passes
 
 ### Phase 2: Feature Complete (4 weeks)
+
 - All apps generate
 - All core features work
 - Tests cover critical paths
 
 ### Phase 3: Production Ready (2 weeks)
+
 - Documentation complete
 - Error handling robust
 - Examples provided
@@ -166,18 +188,18 @@ pnpm dev
 
 ## Technical Decisions
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Monorepo Tool | Nx | Best DX, caching, task orchestration |
-| Frontend Framework | React | Wide adoption, ecosystem |
-| UI Library | shadcn/ui | Customizable, accessible, modern |
-| Backend Framework | NestJS | TypeScript-native, structured |
-| Database | PostgreSQL + Prisma | Reliable, type-safe ORM |
-| Auth | Auth.js | Flexible, supports many providers |
-| Testing | Playwright | Fast, reliable, visual testing |
-| Package Manager | pnpm | Fast, efficient, workspace support |
-| Styling | Tailwind CSS | Utility-first, fast development |
-| Validation | Zod | Type-safe, composable |
+| Decision           | Choice              | Rationale                            |
+| ------------------ | ------------------- | ------------------------------------ |
+| Monorepo Tool      | Nx                  | Best DX, caching, task orchestration |
+| Frontend Framework | React               | Wide adoption, ecosystem             |
+| UI Library         | shadcn/ui           | Customizable, accessible, modern     |
+| Backend Framework  | NestJS              | TypeScript-native, structured        |
+| Database           | PostgreSQL + Prisma | Reliable, type-safe ORM              |
+| Auth               | Auth.js             | Flexible, supports many providers    |
+| Testing            | Playwright          | Fast, reliable, visual testing       |
+| Package Manager    | pnpm                | Fast, efficient, workspace support   |
+| Styling            | Tailwind CSS        | Utility-first, fast development      |
+| Validation         | Zod                 | Type-safe, composable                |
 
 ---
 
@@ -203,6 +225,7 @@ pnpm dev
    - Tests (from generated features)
 
 ### Template Variables
+
 ```typescript
 {
   projectName: string;
@@ -227,6 +250,7 @@ pnpm dev
 ## Command Reference
 
 ### hatch init
+
 ```bash
 hatch init [project-name] [options]
 
@@ -239,6 +263,7 @@ Options:
 ```
 
 ### hatch generate
+
 ```bash
 hatch generate <schematic> <name> [options]
 
@@ -251,6 +276,7 @@ Schematics:
 ```
 
 ### hatch dev
+
 ```bash
 hatch dev [app-name]
 
@@ -263,6 +289,7 @@ hatch dev api
 ```
 
 ### hatch test
+
 ```bash
 hatch test [options]
 
@@ -278,6 +305,7 @@ Options:
 ## Dependency Management
 
 ### Core CLI Dependencies
+
 ```json
 {
   "commander": "^11.0.0",
@@ -292,6 +320,7 @@ Options:
 ```
 
 ### Generated Project Dependencies
+
 ```json
 {
   "nx": "^18.0.0",
@@ -313,6 +342,7 @@ Options:
 ## Success Criteria
 
 ### Functional
+
 - [ ] CLI generates complete Nx workspace
 - [ ] All apps start without errors
 - [ ] Authentication works end-to-end
@@ -323,6 +353,7 @@ Options:
 - [ ] Production build succeeds
 
 ### Non-Functional
+
 - [ ] Generation completes in < 2 minutes
 - [ ] Generated code passes linting
 - [ ] TypeScript strict mode enabled
@@ -334,19 +365,68 @@ Options:
 
 ## Risk Mitigation
 
-| Risk | Impact | Mitigation |
-|------|--------|------------|
-| Template complexity | High | Start with simple templates, iterate |
-| Dependency conflicts | Medium | Lock versions, test combinations |
-| User story parsing | High | Start with structured input, add NLP later |
-| Maintenance burden | High | Modular design, comprehensive tests |
-| Breaking changes in deps | Medium | Version pinning, update strategy |
+| Risk                     | Impact | Mitigation                                 |
+| ------------------------ | ------ | ------------------------------------------ |
+| Template complexity      | High   | Start with simple templates, iterate       |
+| Dependency conflicts     | Medium | Lock versions, test combinations           |
+| User story parsing       | High   | Start with structured input, add NLP later |
+| Maintenance burden       | High   | Modular design, comprehensive tests        |
+| Breaking changes in deps | Medium | Version pinning, update strategy           |
+
+---
+
+## GitHub Portfolio Feature (DevFolio)
+
+### Overview
+
+Generate developer portfolios from GitHub profiles to showcase skills to employers.
+
+### User Story
+
+> "As a developer I want an easy portfolio maker which takes info from my GitHub to promote my skills to employers so that I can find new work opportunities"
+
+### Feature Spec
+
+#### Phase 1: GitHub OAuth & Import
+
+- [ ] GitHub OAuth integration for user login
+- [ ] GitHub API integration to fetch:
+  - Profile (avatar, name, bio, location)
+  - Repositories (name, description, stars, forks, language)
+  - Skills (based on top languages used)
+  - Contributions calendar
+  - Pinned repos
+- [ ] Portfolio template customization
+
+#### Phase 2: Portfolio Builder
+
+- [ ] Dashboard for managing portfolio
+- [ ] Theme customization (colors, layout)
+- [ ] Bio/description editing
+- [ ] Featured projects selection
+- [ ] Contact info configuration
+- [ ] Custom domain support
+
+#### Phase 3: Portfolio Display
+
+- [ ] Public portfolio pages
+- [ ] SEO optimization
+- [ ] Analytics integration
+- [ ] Shareable links
+
+### Technical Requirements
+
+- GitHub OAuth App registration
+- GitHub GraphQL API for comprehensive data
+- Portfolio templates (minimal, cards, dark mode)
+- Vercel/Netlify deployment support
 
 ---
 
 ## Next Immediate Steps
 
 1. **Set up CLI project**
+
    ```bash
    cd /Users/dbirkett/Projects/hatch
    npm init -y

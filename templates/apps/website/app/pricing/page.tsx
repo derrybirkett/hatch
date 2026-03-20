@@ -61,13 +61,13 @@ export default function PricingPage() {
               Pricing
             </Link>
             <Link
-              href="http://localhost:3000/login"
+              href="http://localhost:4200/login"
               className="text-sm font-medium hover:text-primary"
             >
               Sign In
             </Link>
             <Link
-              href="http://localhost:3000/signup"
+              href="http://localhost:4200/signup"
               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
               Get Started
@@ -114,7 +114,7 @@ export default function PricingPage() {
                 <p className="text-muted-foreground mb-6">{plan.description}</p>
                 
                 <Link
-                  href="http://localhost:3000/signup"
+                  href="http://localhost:4200/signup"
                   className={`inline-flex w-full items-center justify-center rounded-md px-4 py-2 text-sm font-medium mb-6 ${
                     plan.popular
                       ? 'bg-primary text-primary-foreground hover:bg-primary/90'

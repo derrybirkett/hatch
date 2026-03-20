@@ -15,13 +15,13 @@ export default function HomePage() {
               Pricing
             </Link>
             <Link
-              href="http://localhost:3000/login"
+              href="http://localhost:4200/login"
               className="text-sm font-medium hover:text-primary"
             >
               Sign In
             </Link>
             <Link
-              href="http://localhost:3000/signup"
+              href="http://localhost:4200/signup"
               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
             >
               Get Started
@@ -41,7 +41,7 @@ export default function HomePage() {
           </p>
           <div className="flex justify-center space-x-4">
             <Link
-              href="http://localhost:3000/signup"
+              href="http://localhost:4200/signup"
               className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-base font-medium text-primary-foreground hover:bg-primary/90"
             >
               Start Free Trial
@@ -136,7 +136,7 @@ export default function HomePage() {
             Join thousands of companies building with <%= projectName %>.
           </p>
           <Link
-            href="http://localhost:3000/signup"
+            href="http://localhost:4200/signup"
             className="inline-flex items-center justify-center rounded-md bg-primary px-8 py-3 text-base font-medium text-primary-foreground hover:bg-primary/90"
           >
             Start Your Free Trial

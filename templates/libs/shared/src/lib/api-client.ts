@@ -79,7 +79,10 @@ class ApiClient {
     }
   }
 
-  async get<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+  async get<T>(
+    endpoint: string,
+    options?: RequestInit
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'GET' });
   }
 
@@ -119,7 +122,10 @@ class ApiClient {
     });
   }
 
-  async delete<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+  async delete<T>(
+    endpoint: string,
+    options?: RequestInit
+  ): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' });
   }
 
@@ -138,5 +144,5 @@ class ApiClient {
 
 // Create and export default instance
 export const apiClient = new ApiClient({
-  baseURL: process.env.API_URL || 'http://localhost:3333/api',
+  baseURL: process.env['API_URL'] || 'http://localhost:4202/api',
 });

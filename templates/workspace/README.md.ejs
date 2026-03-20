@@ -75,9 +75,9 @@ Start all services:
 nx run-many -t serve
 
 # Or individually
-nx serve website     # http://localhost:3001
-nx serve dashboard   # http://localhost:3000
-nx serve api         # http://localhost:3333
+nx serve dashboard   # http://localhost:4200
+nx serve website     # http://localhost:4201
+nx serve api         # http://localhost:4202
 ```
 
 ### Using Docker Compose
@@ -207,12 +207,12 @@ nx test e2e
 ### Authentication Flow
 
 ```
-1. User visits website (localhost:3001)
-2. Clicks "Get Started" → Redirects to dashboard signup (localhost:3000/signup)
-3. Submits signup form → API (localhost:3333/api/auth/register)
+1. User visits website (localhost:4201)
+2. Clicks "Get Started" → Redirects to dashboard signup (localhost:4200/signup)
+3. Submits signup form → API (localhost:4202/api/auth/register)
 4. API creates user, hashes password, returns JWT token
 5. Dashboard stores token in localStorage
-6. User redirected to dashboard (localhost:3000/dashboard)
+6. User redirected to dashboard (localhost:4200/dashboard)
 7. Protected routes verify token before rendering
 ```
 

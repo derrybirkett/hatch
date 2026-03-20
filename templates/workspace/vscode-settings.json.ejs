@@ -21,5 +21,14 @@
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
-  ]
+  ],
+  "docker.dockerCompose.up.probe": "startup",
+  "docker.dockerCompose.up.timeout": 120,
+  "docker.dockerCompose.down.removeOrphans": true,
+  "[dockercompose]": {
+    "editor.formatOnSave": true
+  },
+  "[dockerfile]": {
+    "editor.formatOnSave": true
+  }
 }

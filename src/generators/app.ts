@@ -15,11 +15,15 @@ export interface AppConfig {
  */
 export async function generateApp(config: AppConfig) {
   const appPath = path.join(config.projectPath, 'apps', config.appName);
-  const templatesDir = path.join(__dirname, '../../templates/apps', config.appType);
-  
+  const templatesDir = path.join(
+    __dirname,
+    '../../templates/apps',
+    config.appType
+  );
+
   // Create app directory structure
   await fs.ensureDir(path.join(appPath, 'src'));
-  
+
   // Template data
   const templateData = {
     projectName: config.projectName,
@@ -27,27 +31,27 @@ export async function generateApp(config: AppConfig) {
     appType: config.appType,
     description: config.description || 'A SaaS application',
   };
-  
+
   // Generate project.json
   await renderTemplate(
     path.join(templatesDir, 'project.json.ejs'),
     path.join(appPath, 'project.json'),
     templateData
   );
-  
+
   // Generate tsconfig files
   await renderTemplate(
     path.join(templatesDir, 'tsconfig.json.ejs'),
     path.join(appPath, 'tsconfig.json'),
     templateData
   );
-  
+
   await renderTemplate(
     path.join(templatesDir, 'tsconfig.app.json.ejs'),
     path.join(appPath, 'tsconfig.app.json'),
     templateData
   );
-  
+
   // Generate package.json if exists
   const packageJsonPath = path.join(templatesDir, 'package.json.ejs');
   if (await fs.pathExists(packageJsonPath)) {
@@ -57,17 +61,17 @@ export async function generateApp(config: AppConfig) {
       templateData
     );
   }
-  
+
   // Generate README
   await renderTemplate(
     path.join(templatesDir, 'README.md.ejs'),
     path.join(appPath, 'README.md'),
     templateData
   );
-  
+
   // Copy app-specific source files
   await copyAppSource(templatesDir, appPath, config.appType, templateData);
-  
+
   // Copy config files (vite.config.ts, index.html, etc.)
   await copyAppConfig(templatesDir, appPath, templateData);
 }
@@ -75,12 +79,17 @@ export async function generateApp(config: AppConfig) {
 /**
  * Copy app-specific source files
  */
-async function copyAppSource(templatesDir: string, appPath: string, appType: string, templateData: object) {
+async function copyAppSource(
+  templatesDir: string,
+  appPath: string,
+  appType: string,
+  templateData: object
+) {
   // For Next.js website, copy the 'app' directory (App Router)
   if (appType === 'website') {
     const appDir = path.join(templatesDir, 'app');
     const destDir = path.join(appPath, 'app');
-    
+
     if (await fs.pathExists(appDir)) {
       await copyDirWithTemplates(appDir, destDir, templateData);
     }
@@ -88,7 +97,7 @@ async function copyAppSource(templatesDir: string, appPath: string, appType: str
     // For other apps (dashboard, api), copy the 'src' directory
     const srcDir = path.join(templatesDir, 'src');
     const destDir = path.join(appPath, 'src');
-    
+
     if (await fs.pathExists(srcDir)) {
       await copyDirWithTemplates(srcDir, destDir, templateData);
     }
@@ -98,7 +107,11 @@ async function copyAppSource(templatesDir: string, appPath: string, appType: str
 /**
  * Copy app config files
  */
-async function copyAppConfig(templatesDir: string, appPath: string, templateData: object) {
+async function copyAppConfig(
+  templatesDir: string,
+  appPath: string,
+  templateData: object
+) {
   const configFiles = [
     'vite.config.ts.ejs',
     'index.html.ejs',
@@ -111,11 +124,11 @@ async function copyAppConfig(templatesDir: string, appPath: string, templateData
     'Dockerfile',
     'nginx.conf',
   ];
-  
+
   for (const file of configFiles) {
     const sourcePath = path.join(templatesDir, file);
     const destPath = path.join(appPath, file.replace('.ejs', ''));
-    
+
     if (await fs.pathExists(sourcePath)) {
       // If it's an EJS template, render it
       if (file.endsWith('.ejs')) {
@@ -126,6 +139,11 @@ async function copyAppConfig(templatesDir: string, appPath: string, templateData
       }
     }
   }
+
+  // Create public directory for website app (required for Next.js)
+  const templatesDirBase = path.dirname(templatesDir);
+  const appType = path.basename(templatesDir);
+  if (appType === 'website') {
+    await fs.ensureDir(path.join(appPath, 'public'));
+  }
 }
-
-

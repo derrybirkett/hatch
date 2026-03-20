@@ -4,6 +4,8 @@
 
 **Bootstrap production-ready SaaS applications in seconds**
 
+Part of the [Bloom system](https://github.com/derrybirkett/bloom) - a modular, composable development stack.
+
 [![Version](https://img.shields.io/badge/version-0.7.0-blue.svg)](https://github.com/yourusername/hatch)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue.svg)](https://www.typescriptlang.org/)
@@ -1020,3 +1022,20 @@ Built with amazing open-source tools:
 [Get Started](#-quick-start) • [View Examples](#-examples) • [Read Docs](#-documentation)
 
 </div>
+
+---
+
+## 🌱 The Bloom System
+
+Hatch is part of the Bloom system for AI-assisted product development:
+
+| Component | Purpose |
+|-----------|---------|
+| **seed** | Bootstrap CLI - converts intent to scaffolded project |
+| **prefs** | Design values - can be swapped for custom preferences |
+| **grove** | Agentic layer - guides autonomous development |
+| **hatch** | Stack scaffold - generates production-ready code |
+
+**Override pattern**: prefs overrides grove and hatch defaults.
+
+See [github.com/derrybirkett/bloom](https://github.com/derrybirkett/bloom) for full system documentation.

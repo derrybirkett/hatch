@@ -27,9 +27,9 @@ docker-compose up --build
 ```
 
 2. Services will be available at:
-- Website: http://localhost:3001
-- Dashboard: http://localhost:3000
-- API: http://localhost:3333
+- Dashboard: http://localhost:4200
+- Website: http://localhost:4201
+- API: http://localhost:4202
 - PostgreSQL: localhost:5432
 - Redis: localhost:6379
 
@@ -167,11 +167,11 @@ REDIS_URL=redis://localhost:6379
 JWT_SECRET=your-super-secret-jwt-key-change-this
 
 # Server
-PORT=3333
+PORT=4202
 NODE_ENV=production
 
 # CORS
-CORS_ORIGIN=http://localhost:3000,http://localhost:3001,https://your-dashboard.com,https://your-website.com
+CORS_ORIGIN=http://localhost:4200,http://localhost:4201,https://your-dashboard.com,https://your-website.com
 
 # Stripe (if using)
 STRIPE_SECRET_KEY=sk_test_...
@@ -181,15 +181,15 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 ### Dashboard (.env)
 
 ```env
-VITE_API_URL=http://localhost:3333
+VITE_API_URL=http://localhost:4202
 # or production: https://api.your-domain.com
 ```
 
 ### Website (.env)
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:3333
-NEXT_PUBLIC_DASHBOARD_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:4202
+NEXT_PUBLIC_DASHBOARD_URL=http://localhost:4200
 # or production:
 # NEXT_PUBLIC_API_URL=https://api.your-domain.com
 # NEXT_PUBLIC_DASHBOARD_URL=https://dashboard.your-domain.com

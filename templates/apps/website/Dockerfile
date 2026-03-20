@@ -26,14 +26,19 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
+# Copy package.json for dependencies
+COPY --from=builder /app/package*.json ./
+
+# Install production dependencies
+RUN npm ci --omit=dev && npm cache clean --force
+
+# Copy built application
+COPY --from=builder /app/dist/apps/website/.next ./.next
+COPY --from=builder /app/dist/apps/website/public ./public
+
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nextjs -u 1001
-
-# Copy built application
-COPY --from=builder /app/dist/apps/website/.next/standalone ./
-COPY --from=builder /app/dist/apps/website/.next/static ./apps/website/.next/static
-COPY --from=builder /app/dist/apps/website/public ./apps/website/public
 
 # Set ownership
 RUN chown -R nextjs:nodejs /app
@@ -48,4 +53,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
 
 # Start the application
-CMD ["node", "apps/website/server.js"]
+CMD ["node", "node_modules/next/dist/bin/next", "start", "-p", "3000"]

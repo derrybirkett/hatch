@@ -151,7 +151,7 @@ jobs:
           
       - name: Wait for services
         run: |
-          npx wait-on http://localhost:3333 http://localhost:3000 http://localhost:3001 --timeout 60000
+          npx wait-on http://localhost:4202 http://localhost:4200 http://localhost:4201 --timeout 60000
 
       - name: Run E2E tests
         run: cd e2e && npm test -- --project=chromium
